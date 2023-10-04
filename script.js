@@ -78,11 +78,13 @@ Field.prototype.generate = function() {
     this.canvas[p.y >> 0][p.x >> 0] = p.char;
 }
 Field.prototype.cursorStars = function(clientX, clientY) {  // make cool particles when i move the cursor
-  let x = clientX / charWidth >> 0;
-  let y = clientY / 18 >> 0;
-  if (Math.random() < 0.3) {
-    let velocityX = (Math.random() * 0.6) - 0.3;
-    let velocityY = (Math.random() * 0.3) - 0.2;
+  if (Math.random() < 0.25) {
+    let x = clientX / charWidth >> 0;
+    let y = clientY / 18 >> 0;
+    let maxVelX = 10 / charWidth;
+    let maxVelY = 10 / 18;
+    let velocityX = Math.random() * maxVelX - (maxVelX / 2);
+    let velocityY = Math.random() * maxVelY - (maxVelY / 2);
     this.particles.push(new Particle(x, y, this.width, this.height, velocityX, velocityY, '*.o', 30));
   }
 }
