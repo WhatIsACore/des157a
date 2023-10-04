@@ -2,27 +2,51 @@ body,
 html {
     margin: 0;
     padding: 0;
-    background: #fff;
+    z-index: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#charWidth {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    opacity: 0;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #starfield {
     display: block;
     font-family: 'VT323', monospace;
     font-size: 18px;
+    letter-spacing: 0;
+    line-height: 18px;
     white-space: pre;
     color: #f88;
     position: fixed;
     top: 0;
-    z-index: 0;
+    z-index: 1;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#starfield hehe {
+    color: #88f;
 }
 
 .wrapper {
-    padding: 100px 200px;
+    margin: 100px 200px;
+    z-index: 2;
 }
 
 main {
     background-color: #fff;
     border: 2px solid #f88;
+    color: #f88;
     padding: 50px;
-    z-index: 2;
 }

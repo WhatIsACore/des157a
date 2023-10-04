@@ -1,28 +1,42 @@
 'use strict';
 let $ = e => document.querySelector(e);
 
-function Particle(maxX, maxY, velocityX, velocityY, charset) {
+function Particle(x, y, maxX, maxY, velocityX, velocityY, charset, lifespan) {
+  this.x = x;
+  this.y = y;
   this.maxX = maxX;
   this.maxY = maxY;
-  this.x = Math.random() * maxX;
-  this.y = Math.random() * maxY;
   this.velocityX = velocityX;
   this.velocityY = velocityY;
   this.charset = charset;
   this.char = charset[Math.random() * charset.length >> 0];
+  if (lifespan != null) {
+    this.lifespan = lifespan;
+    this.char = `<hehe>${this.char}</hehe>`;
+  }
 }
 Particle.prototype.step = function() {
   this.x += this.velocityX;
   this.y += this.velocityY;
-  if (this.x >= this.maxX) {
-    this.x = 0;
-    this.y = Math.random() * this.maxY;
-    this.char = this.charset[Math.random() * this.charset.length >> 0];
-  }
-  if (this.y >= this.maxY) {
-    this.x = Math.random() * this.maxX;
-    this.y = 0;
-    this.char = this.charset[Math.random() * this.charset.length >> 0];
+  if (this.lifespan != null) {
+    this.lifespan--;
+    if (
+      this.x >= this.maxX ||
+      this.y >= this.maxY ||
+      this.x < 0 ||
+      this.y < 0
+    ) this.lifespan = -1;
+  } else {
+    if (this.x >= this.maxX) {
+      this.x = 0;
+      this.y = Math.random() * this.maxY;
+      this.char = this.charset[Math.random() * this.charset.length >> 0];
+    }
+    if (this.y >= this.maxY) {
+      this.x = Math.random() * this.maxX;
+      this.y = 0;
+      this.char = this.charset[Math.random() * this.charset.length >> 0];
+    }
   }
 }
 
@@ -36,21 +50,41 @@ function Field(el, width, height) {
 
   this.particles = [];
   for (let i = 0; i < 60; i++)
-    this.particles.push(new Particle(width, height, 0.3, 0, '*.'));
+    this.randomParticle(0.3, 0, '*.');
   for (let i = 0; i < 30; i++)
-    this.particles.push(new Particle(width, height, 0.6, 0.05, '*'));
+    this.randomParticle(0.6, 0.05, '*');
   for (let i = 0; i < 20; i++)
-    this.particles.push(new Particle(width, height, 1.2, 0, '-.'));
+    this.randomParticle(1.2, 0, '-.');
+}
+Field.prototype.randomParticle = function(velocityX, velocityY, charset) {
+  let x = Math.random() * this.width;
+  let y = Math.random() * this.height;
+  this.particles.push(new Particle(x, y, this.width, this.height, velocityX, velocityY, charset));
 }
 Field.prototype.step = function() {
   this.particles.forEach(x => x.step());
+  // clear dead stars
+  for (let i = this.particles.length - 1; i > -1; i--)
+    if (this.particles[i].lifespan != null && this.particles[i].lifespan < 0)
+      this.particles.splice(i, 1);
+
   this.generate();
   this.print();
+
 }
 Field.prototype.generate = function() {
   this.canvas.map(r => r.fill(' '));
   for (let p of this.particles)
     this.canvas[p.y >> 0][p.x >> 0] = p.char;
+}
+Field.prototype.cursorStars = function(clientX, clientY) {  // make cool particles when i move the cursor
+  let x = clientX / charWidth >> 0;
+  let y = clientY / 18 >> 0;
+  if (Math.random() < 0.3) {
+    let velocityX = (Math.random() * 0.6) - 0.3;
+    let velocityY = (Math.random() * 0.3) - 0.2;
+    this.particles.push(new Particle(x, y, this.width, this.height, velocityX, velocityY, '*.o', 30));
+  }
 }
 Field.prototype.print = function() {
   let res = ``;
@@ -62,11 +96,25 @@ Field.prototype.print = function() {
   this.el.innerHTML = res;
 }
 
-let width = 300;
-let height = 50;
-let f = new Field($('#starfield'), 200, 40);
+let f, width, height, charWidth;
+function resizeScreen() {
+  // calculate width of one character
+  charWidth = $('#charWidth').clientWidth / 10;
+  width = (screen.width / charWidth >> 0) + 1;
+  height = (screen.height / 18 >> 0) + 1;
+  f = new Field($('#starfield'), width, height);
+  addEventListener('mousemove', (e) => {
+    f.cursorStars(e.clientX, e.clientY);
+  });
+}
+addEventListener('resize', resizeScreen);
+
 function step() {
   f.step();
   requestAnimationFrame(step);
 }
-step();
+
+document.fonts.ready.then(() => {
+  resizeScreen();
+  step();
+});
