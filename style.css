@@ -1,0 +1,28 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+#starfield {
+    display: block;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    white-space: pre;
+    color: #f88;
+    position: fixed;
+    top: 0;
+    z-index: 0;
+}
+
+.wrapper {
+    padding: 100px 200px;
+}
+
+main {
+    background-color: #fff;
+    border: 2px solid #f88;
+    padding: 50px;
+    z-index: 2;
+}
