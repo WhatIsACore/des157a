@@ -23,9 +23,18 @@ p {
     box-sizing: border-box;
 }
 
-body::before {
-    content: "";
+.banner {
+    width: calc(100vw - 200px);
+    height: 250px;
+    margin: -100px 100px;
+    border: 2px solid #f88;
+    overflow: hidden;
     position: absolute;
+    clip: rect(0, auto, auto, 0);
+}
+
+#backdrop::before {
+    content: "";
     width: 400%;
     height: 400%;
     top: -150%;
@@ -36,6 +45,8 @@ body::before {
     transform: rotate(120deg);
     image-rendering: pixelated;
     opacity: 0.5;
+    filter: hue-rotate(120deg);
+    position: fixed;
 }
 
 #charWidth {
@@ -57,8 +68,8 @@ body::before {
     line-height: 18px;
     white-space: pre;
     color: #f88;
-    position: fixed;
     top: 0;
+    left: 0;
     z-index: 1;
     -ms-user-select: none;
     user-select: none;
@@ -69,7 +80,7 @@ body::before {
 }
 
 .wrapper {
-    margin: 100px 200px;
+    margin: 50px 150px;
     z-index: 2;
 }
 
@@ -78,7 +89,7 @@ main {
     background-color: #fff;
     border: 2px solid #f88;
     color: #f88;
-    padding: 40px;
+    padding: 20px;
     font-family: 'Times New Roman', sans-serif;
     position: relative;
     z-index: 2;

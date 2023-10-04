@@ -40,10 +40,12 @@ Particle.prototype.step = function() {
   }
 }
 
-function Field(el, width, height) {
+function Field(el, width, height, left, top) {
   this.el = el;
   this.width = width;
   this.height = height;
+  this.left = left;
+  this.top = top;
   this.canvas = new Array(height);
   for (let i = 0; i < height; i++)
     this.canvas[i] = new Array(width);
@@ -78,11 +80,11 @@ Field.prototype.generate = function() {
     this.canvas[p.y >> 0][p.x >> 0] = p.char;
 }
 Field.prototype.cursorStars = function(clientX, clientY) {  // make cool particles when i move the cursor
-  if (Math.random() < 0.25) {
-    let x = clientX / charWidth >> 0;
-    let y = clientY / 18 >> 0;
-    let maxVelX = 10 / charWidth;
-    let maxVelY = 10 / 18;
+  if (Math.random() < 0.4) {
+    let x = (clientX - this.left) / charWidth >> 0;
+    let y = (clientY - this.top) / 18 >> 0;
+    let maxVelX = 5 / charWidth;
+    let maxVelY = 5 / 18;
     let velocityX = Math.random() * maxVelX - (maxVelX / 2);
     let velocityY = Math.random() * maxVelY - (maxVelY / 2);
     this.particles.push(new Particle(x, y, this.width, this.height, velocityX, velocityY, '*.o', 30));
@@ -102,14 +104,15 @@ let f, width, height, charWidth;
 function resizeScreen() {
   // calculate width of one character
   charWidth = $('#charWidth').clientWidth / 10;
-  width = (screen.width / charWidth >> 0) + 1;
-  height = (screen.height / 18 >> 0) + 1;
-  f = new Field($('#starfield'), width, height);
-  addEventListener('mousemove', (e) => {
-    f.cursorStars(e.clientX, e.clientY);
-  });
+  width = ($('.banner').offsetWidth / charWidth >> 0) + 1;
+  height = ($('.banner').offsetHeight / 18 >> 0) + 1;
+  let rect = $('.banner').getBoundingClientRect();
+  f = new Field($('#starfield'), width, height, rect.left, rect.top);
 }
 addEventListener('resize', resizeScreen);
+$('#starfield').addEventListener('mousemove', (e) => {
+  f.cursorStars(e.clientX, e.clientY);
+});
 
 function step() {
   f.step();
