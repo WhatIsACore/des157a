@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Experiment 1</title>
+</head>
+
+<body>
+    <h1>Experiment 1</h1>
+    <h2>open the console to see the functionality of the code</h2>
+
+    <script>
+        // challenge: Write a program that capitalizes every other letter, or even letters in words in the string.
+        // i hope you don't mind but I golfed it really hard
+
+        let i = 0, s = prompt('Enter a string!').toLowerCase();
+        console.log(s.split('').map(x => i++ % 2 == 1 ? x.toUpperCase() : x).join(''));
+
+    </script>
+</body>
+
+</html>
