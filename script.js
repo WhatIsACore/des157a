@@ -110,7 +110,7 @@ function resizeScreen() {
   f = new Field($('#starfield'), width, height, rect.left, rect.top);
 }
 addEventListener('resize', resizeScreen);
-$('#starfield').addEventListener('mousemove', (e) => {
+addEventListener('mousemove', (e) => {
   f.cursorStars(e.clientX, e.clientY);
 });
 
