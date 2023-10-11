@@ -104,9 +104,9 @@ let f, width, height, charWidth;
 function resizeScreen() {
   // calculate width of one character
   charWidth = $('#charWidth').clientWidth / 10;
-  width = ($('.banner').offsetWidth / charWidth >> 0) + 1;
-  height = ($('.banner').offsetHeight / 18 >> 0) + 1;
-  let rect = $('.banner').getBoundingClientRect();
+  width = ($('#banner').offsetWidth / charWidth >> 0) + 1;
+  height = ($('#banner').offsetHeight / 18 >> 0) + 1;
+  let rect = $('#banner').getBoundingClientRect();
   f = new Field($('#starfield'), width, height, rect.left, rect.top);
 }
 addEventListener('resize', resizeScreen);
