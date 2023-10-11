@@ -10,7 +10,7 @@ html {
         filter: hue-rotate(0);
     }
 
-    25% {
+    100% {
         filter: hue-rotate(360deg);
     }
 }
@@ -139,7 +139,7 @@ header h2 {
     color: #faa;
     font-weight: 600;
     animation-name: rainbow;
-    animation-duration: 20s;
+    animation-duration: 10s;
 }
 
 main {
