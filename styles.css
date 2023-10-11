@@ -5,6 +5,16 @@ html {
     z-index: 0;
 }
 
+@keyframes rainbow {
+    0% {
+        filter: hue-rotate(0);
+    }
+
+    25% {
+        filter: hue-rotate(360deg);
+    }
+}
+
 h1,
 h2,
 h3,
@@ -126,7 +136,10 @@ main {
 }
 
 header h2 {
-    color: #c9ceba;
+    color: #faa;
+    font-weight: 600;
+    animation-name: rainbow;
+    animation-duration: 20s;
 }
 
 main {
@@ -189,7 +202,9 @@ section:hover ul li {
 }
 
 section ul a:hover {
-    color: #fff;
+    color: #faa;
+    animation-name: rainbow;
+    animation-duration: 5s;
 }
 
 section h2 {
