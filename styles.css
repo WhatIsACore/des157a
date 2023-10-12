@@ -43,7 +43,7 @@ a {
 
 body {
     /*background-color: #092018;*/
-    background-color: #282b28;
+    background-color: #181a16;
     min-width: 900px;
     overflow-x: scroll;
 }
@@ -56,6 +56,7 @@ body {
     top: 0;
     left: 0;
     background-color: #243430;
+    clip: rect(auto, auto, auto, auto);
 }
 
 #backdrop::before {
