@@ -1,3 +1,7 @@
+:root {
+    --dark: #181a16;
+}
+
 body,
 html {
     margin: 0;
@@ -43,7 +47,7 @@ a {
 
 body {
     /*background-color: #092018;*/
-    background-color: #181a16;
+    background-color: var(--dark);
     min-width: 900px;
     overflow-x: scroll;
     -ms-interpolation-mode: nearest-neighbor;
@@ -125,7 +129,7 @@ body {
 
 header {
     display: inline-block;
-    background-color: #282b28;
+    background-color: var(--dark);
     border: 1px solid #fff;
     border-radius: 3px;
     color: #fff;
@@ -190,7 +194,7 @@ section ul {
 }
 
 section:hover {
-    background-color: #282b28;
+    background-color: var(--dark);
     border: 1px solid #fff;
 }
 
@@ -218,10 +222,11 @@ section h2 {
     display: block;
     padding: 5px 12px;
     text-shadow: 2px 2px 0 #000;
+    background-color: var(--dark);
 }
 
 section:hover h2 {
-    background: none;
+    background-color: none;
 }
 
 footer {
