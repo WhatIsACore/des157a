@@ -1,5 +1,6 @@
 :root {
     --dark: #181a16;
+    --text: #c9ceba;
 }
 
 body,
@@ -8,6 +9,12 @@ html {
     padding: 0;
     z-index: 0;
     font-family: 'VT323', monospace;
+}
+
+@media screen and (min-width: 1000px) {
+    body {
+        overflow-x: hidden;
+    }
 }
 
 @keyframes rainbow {
@@ -49,7 +56,7 @@ body {
     /*background-color: #092018;*/
     background-color: var(--dark);
     min-width: 900px;
-    overflow-x: scroll;
+    overflow-x: auto;
     -ms-interpolation-mode: nearest-neighbor;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: -moz-crisp-edges;
@@ -147,7 +154,6 @@ main {
 
 header h2 {
     color: #faa;
-    font-weight: 600;
     animation-name: rainbow;
     animation-duration: 10s;
 }
@@ -200,7 +206,7 @@ section:hover {
 
 section ul a {
     font-weight: 600;
-    color: #c9ceba;
+    color: var(--text);
 }
 
 section ul li {
@@ -236,6 +242,7 @@ footer {
     text-align: right;
     z-index: 4;
     margin: 0 150px;
+    white-space: no-wrap;
 }
 
 footer p {
