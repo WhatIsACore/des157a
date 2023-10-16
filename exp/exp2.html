@@ -4,19 +4,42 @@
 <head>
     <meta charset='utf-8'>
     <title>Experiment 2</title>
+
+    <style>
+        #map {
+            border-spacing: 0;
+        }
+
+        #map tr td {
+            width: 25px;
+            height: 25px;
+            padding: 0;
+        }
+
+        #map tr td.i {
+            background-color: #f80;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Experiment 2</h1>
-    <h2>open the console to see the functionality of the code</h2>
+    <table id="map"></table>
 
     <script>
-        // challenge: Write a program that capitalizes every other letter, or even letters in words in the string.
-        // i hope you don't mind but I golfed it really hard
+        // converts an input into a binary grid!
+        let inp = prompt('type in a string or a very large number');
+        let bin = (+inp).toString(2);
+        if (isNaN(bin))
+            bin = [...inp].map(x => (+x.charCodeAt(0)).toString(2)).join``;
 
-        let i = 0, s = prompt('Enter a string!').toLowerCase();
-        console.log([...s].map(x => i++ % 2 ? x.toUpperCase() : x).join``)
-
+        let res = ``;
+        for (let r = 0; r < 16; r++) {
+            res += `<tr>`;
+            for (let c = 0; c < 32; c++)
+                res += `<td class='${r * 16 + c < bin.length && bin.charAt(r * 16 + c) === '1' ? 'i' : 'o'}'></td>`;
+            res += `</tr>`;
+        }
+        document.querySelector('#map').innerHTML = res;
     </script>
 </body>
 
