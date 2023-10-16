@@ -11,6 +11,7 @@ html {
     font-family: 'VT323', monospace;
     font-size: 20px;
     line-height: 24px;
+    letter-spacing: 0.01em;
 }
 
 @keyframes rainbow {
