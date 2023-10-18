@@ -1,0 +1,18 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <div id="title">test</div>
+    <div id="test">Hello world</div>
+    <script>
+        let p = window.parent.document;
+        document.getElementById("test").innerText = p.cookie;
+    </script>
+</body>
+
+</html>
