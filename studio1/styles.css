@@ -1,0 +1,94 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    z-index: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(images/campfire.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+}
+
+header {
+    position: absolute;
+    text-align: left;
+    top: 50px;
+    left: 50px;
+}
+
+header img {
+    width: 50%;
+    height: auto;
+}
+
+main {
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+}
+
+form {
+    color: #fff;
+    font-family: 'Pixelify Sans', sans-serif;
+    text-align: right;
+}
+
+.form-row {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+form label {
+    width: 150px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+form input {
+    width: 150px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    transform: translateY(-3px);
+    font-size: 15px;
+}
+
+button {
+    margin-top: 10px;
+}

@@ -156,6 +156,7 @@ header h2 {
     color: #faa;
     animation-name: rainbow;
     animation-duration: 10s;
+    animation-iteration-count: infinite;
 }
 
 main {
@@ -221,6 +222,7 @@ section ul a:hover {
     color: #faa;
     animation-name: rainbow;
     animation-duration: 5s;
+    animation-iteration-count: infinite;
 }
 
 section h2 {
