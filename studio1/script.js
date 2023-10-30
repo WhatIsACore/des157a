@@ -20,17 +20,18 @@ function updateParallax(e) {
 }
 addEventListener("mousemove", updateParallax);
 
-let start = addEventListener('click', e => {
-  removeEventListener('click', start);
+function init(e) {
+  removeEventListener('click', init);
   $('h2').className += 'activated';
   $('header').style.opacity = 0;
   $('main').style.display = 'block';
+  $('.page.active input').focus();
   setTimeout(() => {
     $('header').style.display = 'none';
     $('main').style.opacity = 1;
-    $('.page.active input').focus();
   }, 200);
-});
+}
+addEventListener('click', init);
 
 // 0 = input type, 1 = label, 2 = name
 const formData = {
