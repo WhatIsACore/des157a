@@ -217,6 +217,7 @@ button {
     font-size: 24px;
     text-shadow: 3px 3px 0 #000;
     opacity: 1;
+    margin-bottom: 15px;
 }
 #madlib p {
     margin-bottom: 15px;

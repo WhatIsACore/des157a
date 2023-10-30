@@ -114,9 +114,9 @@ generateForm();
 function generateResult() {
   const data = Object.fromEntries(new FormData($('form')));
   $('#madlib').innerHTML = `
-      <p>
+      <h3>
         ${data.name} the ${data.animal}
-      </p>
+      </h3>
 
       <p>
         One night, while ${data.name} was ${data.verbing} in the ${data.place}, they suddenly came upon a ${data.noun} that looked particularly ${data.adj}. ${data.name} couldn't resist the temptation and pounced on it.
