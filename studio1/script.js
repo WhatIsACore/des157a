@@ -1,4 +1,6 @@
 'use strict';
+(function() {
+
 const $ = el => document.querySelector(el);
 const $$ = el => document.querySelectorAll(el);
 
@@ -63,6 +65,20 @@ const formData = {
 function toTarget(e) {
   e.preventDefault();
 
+  const fields = e.target.parentElement.querySelectorAll('input');
+  for (let field of fields)
+    if (field.value.length === 0) {
+      $('#error').style.display = 'inline-block';
+      setTimeout(() => {
+        $('#error').style.opacity = 0;
+      }, 3000);
+      setTimeout(() => {
+        $('#error').style.display = 'none';
+      }, 5000);
+      return;
+    }
+
+  $('#error').style.display = 'none';
   if (e.target.dataset.target === 'submit') {
     generateResult();
     return;
@@ -120,3 +136,5 @@ function generateResult() {
     $('#madlib').style.opacity = 1;
   }, 200);
 }
+
+}());
