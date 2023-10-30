@@ -28,6 +28,7 @@ let start = addEventListener('click', e => {
   setTimeout(() => {
     $('header').style.display = 'none';
     $('main').style.opacity = 1;
+    $('.page.active input').focus();
   }, 200);
 });
 
@@ -92,6 +93,7 @@ function toTarget(e) {
   setTimeout(() => {
     currentPage.className = 'page';
     $('.page.active').style.opacity = 1;
+    $('.page.active input').focus();
   }, 200);
 }
 function generateForm() {
