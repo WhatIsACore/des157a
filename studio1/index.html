@@ -1,34 +1,64 @@
 <!doctype html>
 
 <html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+            integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <script src="script.js" defer></script>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
-    <link rel='stylesheet' type='text/css' href='styles.css'>
-    <script src='script.js' defer></script>
-</head>
+    <body>
+        <div id="backdrop-layers">
+            <div id="sky"></div>
+            <div id="treeline"></div>
+            <div id="foreground"></div>
+        </div>
 
-<body>
-    <header>
-        <img src="images/title.png" alt="mad lib adventure!">
-    </header>
-    <main>
-        <form>
-            <div id="inputs"></div>
-            <button type="submit">submit!</button>
-        </form>
-        <article id="madlib">
-        </article>
-    </main>
-    <footer>
-    </footer>
-</body>
+        <header>
+            <img src="images/title.png" alt="mad lib adventure!" />
+            <h2>click to start!</h2>
+        </header>
 
+        <main>
+            <form>
+                <div class="page active" id="page1">
+                    <h3>welcome to madlibs!</h3>
+                    <div class="rows"></div>
+                    <button data-target="#page2">next</button>
+                </div>
+                <div class="page" id="page2">
+                    <h3>give me some nouns:</h3>
+                    <div class="rows"></div>
+                    <button data-target="#page3">next</button>
+                </div>
+                <div class="page" id="page3">
+                    <h3>and then some verbs:</h3>
+                    <div class="rows"></div>
+                    <button data-target="#page4">next</button>
+                </div>
+                <div class="page" id="page4">
+                    <h3>almost there!</h3>
+                    <h3>I just need six adjectives:</h3>
+                    <div class="rows"></div>
+                    <button data-target="submit">submit</button>
+                </div>
+            </form>
+
+            <div id="madlib"></div>
+        </main>
+    </body>
 </html>

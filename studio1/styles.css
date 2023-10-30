@@ -37,35 +37,132 @@ a {
 body {
     width: 100vw;
     height: 100vh;
-    background-image: url(images/campfire.png);
+    overflow: hidden;
+}
+
+#backdrop-layers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+#backdrop-layers div {
+    position: absolute;
+    overflow: hidden;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    overflow: hidden;
+}
+#backdrop-layers #sky {
+    left: -10px;
+    top: -5px;
+    width: calc(100vw + 20px);
+    height: calc(100vh + 10px);
+    background-image: url(images/sky.png);
+    z-index: -3;
+}
+#backdrop-layers #treeline {
+    left: -20px;
+    top: -10px;
+    width: calc(100vw + 40px);
+    height: calc(100vh + 20px);
+    background-image: url(images/treeline.png);
+    z-index: -2;
+}
+#backdrop-layers #foreground {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(images/foreground.gif);
+    z-index: -1;
 }
 
 header {
     position: absolute;
-    text-align: left;
-    top: 50px;
-    left: 50px;
+    top: 80px;
+    left: 80px;
+    width: calc(100vw - 160px);
+    height: calc(100vh - 160px);
+    transition: opacity 0.2s ease;
 }
 
 header img {
-    width: 50%;
+    width: 30%;
+    min-width: 300px;
     height: auto;
+}
+
+@keyframes slow-blink {
+    20% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    80% {
+        opacity: 1;
+    }
+}
+
+@keyframes fast-blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.2;
+    }
+}
+
+header h2 {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #fff;
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 24px;
+    text-shadow: 3px 3px 0 #000;
+    opacity: 1;
+}
+
+header h2:not(.activated) {
+    animation: 2s slow-blink infinite linear;
 }
 
 main {
     position: absolute;
-    right: 50px;
-    bottom: 50px;
+    top: 80px;
+    left: 80px;
+    width: calc(100vw - 160px);
+    height: calc(100vh - 160px);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    text-align: right;
+    color: #fff;
+    font-family: "Pixelify Sans", sans-serif;
 }
 
-form {
+main h3 {
     color: #fff;
-    font-family: 'Pixelify Sans', sans-serif;
-    text-align: right;
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 24px;
+    text-shadow: 3px 3px 0 #000;
+    opacity: 1;
+}
+
+form .page {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+form .page.active {
+    display: block;
+}
+
+form .rows {
+    margin-top: 15px;
 }
 
 .form-row {
@@ -91,4 +188,24 @@ form input {
 
 button {
     margin-top: 10px;
+}
+
+#madlib {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    text-align: left;
+    background-color: #222;
+    border: 2px solid #fff;
+    padding: 20px;
+}
+#madlib h3 {
+    color: #fff;
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 24px;
+    text-shadow: 3px 3px 0 #000;
+    opacity: 1;
+}
+#madlib p {
+    margin-bottom: 15px;
 }
