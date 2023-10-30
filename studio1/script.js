@@ -74,11 +74,13 @@ function toTarget(e) {
       }, 3000);
       setTimeout(() => {
         $('#error').style.display = 'none';
+        $('#error').style.opacity = 1;
       }, 5000);
       return;
     }
 
   $('#error').style.display = 'none';
+  $('#error').style.opacity = 1;
   if (e.target.dataset.target === 'submit') {
     generateResult();
     return;
