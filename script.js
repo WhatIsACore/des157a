@@ -159,8 +159,10 @@ function drag(e) {
   activeBox.style.top = `${e.clientY - dragOrigin[1]}px`;
 }
 
+let i = 6;  // increment z-index to put the windows on top of each other
 function openBox(e) {
   const target = $(e.currentTarget.dataset.target);
+  target.style.zIndex = i++;
   if (target.className === 'box open') return;
 
   const rect = e.currentTarget.getBoundingClientRect();
@@ -178,8 +180,6 @@ function closeBox(e) {
   const target = e.currentTarget.parentNode.parentNode;
   target.className = 'box';
 }
-
-let i = 6;
 function focus(e) {
   e.currentTarget.style.zIndex = i++;
 }
