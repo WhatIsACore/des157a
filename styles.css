@@ -3,17 +3,24 @@
     --text: #c9ceba;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body,
 html {
     margin: 0;
     padding: 0;
     z-index: 0;
-    font-family: 'VT323', monospace;
+    min-width: 1000px;
+    overflow: hidden;
+    font-family: "VT323", monospace;
 }
 
-@media screen and (min-width: 1000px) {
-    body {
-        overflow-x: hidden;
+@media screen and (max-width: 1000px) {
+    body,
+    html {
+        overflow-x: scroll;
     }
 }
 
@@ -53,7 +60,6 @@ a {
 }
 
 body {
-    /*background-color: #092018;*/
     background-color: var(--dark);
     min-width: 900px;
     overflow-x: auto;
@@ -64,15 +70,38 @@ body {
     image-rendering: pixelated;
 }
 
+header {
+    display: inline-block;
+    background-color: var(--dark);
+    border: 1px solid #fff;
+    border-radius: 3px;
+    color: #fff;
+    margin: 50px 150px;
+    padding: 15px;
+    position: relative;
+    z-index: 4;
+}
+
+header,
+main {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+header h2 {
+    color: #faa;
+    animation: rainbow 10s linear infinite;
+}
+
 #banner {
     width: 100%;
-    min-width: 900px;
+    min-width: 1000px;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #243430;
-    clip: rect(auto, auto, auto, auto);
+    background-color: #1a2a26;
+    overflow: hidden;
 }
 
 #backdrop::before {
@@ -85,7 +114,8 @@ body {
     background-size: 64px;
     transform: rotate(120deg);
     opacity: 0.2;
-    position: fixed;
+    position: absolute;
+    z-index: 1;
 }
 
 #charWidth {
@@ -93,16 +123,18 @@ body {
     position: absolute;
     white-space: nowrap;
     padding: 0;
-    font-family: 'VT323', monospace;
+    font-family: "VT323", monospace;
     font-size: 18px;
     opacity: 0;
     -ms-user-select: none;
     user-select: none;
 }
 
-#starfield {
+#starfield,
+#cursorstars {
+    position: absolute;
     display: block;
-    font-family: 'VT323', monospace;
+    font-family: "VT323", monospace;
     font-size: 18px;
     letter-spacing: 0;
     line-height: 18px;
@@ -112,21 +144,22 @@ body {
     left: 0;
     -ms-user-select: none;
     user-select: none;
+    pointer-events: none;
+    z-index: 2;
 }
-
-#starfield hehe {
-    color: #fbfbd5;
+#cursorstars {
+    color: #faa;
+    animation: rainbow 10s linear infinite;
 }
 
 #foreground {
-    position: fixed;
     z-index: 2;
     background-image: url(assets/foreground.png);
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
     position: absolute;
-    min-width: 900px;
+    min-width: 1000px;
     top: 0;
     left: 0;
     width: 100%;
@@ -134,129 +167,163 @@ body {
     filter: contrast(120%);
 }
 
-header {
+main {
+    position: absolute;
+    min-width: 1000px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+}
+
+main .marker {
+    position: absolute;
     display: inline-block;
     background-color: var(--dark);
-    border: 1px solid #fff;
-    border-radius: 3px;
+    outline: 1px solid #888;
+    border-radius: 2px;
     color: #fff;
-    margin: 50px 150px;
-    padding: 20px;
-    position: relative;
-    z-index: 3;
+    padding: 5px 10px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+main .marker:hover {
+    outline: 1px solid #fff;
+}
+#marker-studios {
+    left: 34vw;
+    top: 22vw;
+}
+#marker-experiments {
+    left: 54vw;
+    top: 18vw;
+}
+#marker-rd {
+    left: 39vw;
+    top: 42vw;
+}
+#marker-final {
+    left: 73vw;
+    top: 24.5vw;
+}
+@media screen and (max-aspect-ratio: 24/15) {
+    #marker-studios {
+        left: calc(50vw - 25.5vh);
+        top: calc(37vh - 15px);
+    }
+    #marker-experiments {
+        left: calc(50vw + 6.5vh);
+        top: calc(31vh - 15px);
+    }
+    #marker-rd {
+        left: calc(50vw - 17.5vh);
+        top: calc(69vh - 15px);
+    }
+    #marker-final {
+        left: calc(50vw + 37.5vh);
+        top: calc(41vh - 15px);
+    }
+}
+@media screen and (max-width: 1000px) {
+    #marker-studios {
+        left: 295px;
+        top: 280px;
+    }
+    #marker-experiments {
+        left: 550px;
+        top: 232px;
+    }
+    #marker-rd {
+        left: 360px;
+        top: 505px;
+    }
+    #marker-final {
+        left: 800px;
+        top: 310px;
+    }
 }
 
-header,
-main {
-    font-size: 16px;
-    line-height: 24px;
+.box {
+    position: absolute;
+    display: none;
+    overflow: hidden;
+    top: 200px;
+    left: 200px;
+    background-color: var(--dark);
+    outline: 1px solid #fff;
+    border-radius: 2px;
+    color: #fff;
+    z-index: 5;
+}
+.box.open {
+    display: block;
 }
 
-header h2 {
-    color: #faa;
-    animation-name: rainbow;
-    animation-duration: 10s;
-    animation-iteration-count: infinite;
-}
-
-main {
-    position: relative;
-    margin: 0 150px;
+.box .toolbar {
+    height: 24px;
+    background-image: linear-gradient(90deg, transparent 25%, var(--dark) 25%),
+        linear-gradient(0deg, #666 25%, transparent 25%);
+    background-size: 4px 4px;
+    background-repeat: repeat;
     display: flex;
     flex-direction: row;
-    z-index: 3;
     justify-content: space-between;
-    align-items: flex-start;
+    cursor: grab;
 }
-
-.section-group {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    align-items: flex-start;
-    margin-right: 20px
+.box .toolbar .title {
+    padding: 4px 10px;
+    font-size: 16px;
 }
-
-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    margin-bottom: 20px;
-    flex-grow: 1;
-    margin-right: 20px;
-    border: 1px solid transparent;
-    border-radius: 3px;
-    padding: 0 15px 10px 0;
+.box .toolbar .exit-box {
+    cursor: pointer;
 }
-
-section ul {
-    margin-block-start: 0;
-    margin-block-end: 0;
-    padding-inline-start: 0;
-    list-style-type: none;
-    color: #fff;
-    text-transform: lowercase;
-    padding: 0 12px;
+.box .toolbar .exit-box::before {
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin: 9px 8px 7px;
+    content: "";
+    background: linear-gradient(
+            45deg,
+            transparent 40%,
+            #fff 40%,
+            #fff 60%,
+            transparent 60%
+        ),
+        linear-gradient(
+            135deg,
+            transparent 40%,
+            #fff 40%,
+            #fff 60%,
+            transparent 60%
+        );
+    opacity: 0.5;
 }
-
-section:hover {
-    background-color: var(--dark);
-    border: 1px solid #fff;
-}
-
-section ul a {
-    font-weight: 600;
-    color: var(--text);
-}
-
-section ul li {
-    opacity: 0;
-}
-
-section:hover ul li {
+.box .toolbar .exit-box:hover::before {
     opacity: 1;
 }
-
-section ul a:hover {
-    color: #faa;
-    animation-name: rainbow;
-    animation-duration: 5s;
-    animation-iteration-count: infinite;
+.box .content {
+    font-size: 16px;
+    padding: 20px;
 }
-
-section h2 {
-    color: #fff;
-    display: block;
-    padding: 5px 12px;
-    text-shadow: 2px 2px 0 #000;
-    background-color: var(--dark);
+.box .content h4 {
+    margin-bottom: 2px;
 }
-
-section:hover h2 {
-    background-color: none;
+.box .content a {
+    opacity: 0.7;
 }
-
-footer {
-    position: fixed;
-    bottom: 20px;
-    right: 12px;
-    text-align: right;
-    z-index: 4;
-    margin: 0 150px;
-    white-space: no-wrap;
+.box .content a:hover {
+    opacity: 1;
 }
-
-footer p {
-    color: #fff;
-}
-
-
-footer a {
-    font-weight: 600;
-    color: #c9ceba;
-}
-
-footer a:hover {
-    color: #fff;
+.box a::before {
+    content: "⌞";
+    position: relative;
+    display: inline-block;
+    top: -2px;
+    font-size: 12px;
+    margin: 0 5px;
 }

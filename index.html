@@ -1,85 +1,147 @@
 <!doctype html>
 
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <title>zeki's portal</title>
+        <script type="text/javascript" src="script.js" defer></script>
+    </head>
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-    <title>portal page</title>
-</head>
+    <body>
+        <div id="charWidth">xxxxxxxxxx</div>
 
-<body>
-    <div id="charWidth">xxxxxxxxxx</div>
+        <header>
+            <h1>zeki xu</h1>
+            <h2>des157 - interactive media ii - fall 2023</h2>
+        </header>
 
-    <header>
-        <h1>zeki xu</h1>
-        <h2>des 157 - interactive media ii - fall 2023</h2>
-    </header>
-
-    <div id="banner">
-        <div id="backdrop"></div>
-        <div id="starfield"></div>
-    </div>
-
-    <div id="foreground"></div>
-
-    <main>
-        <div class='section-group'>
-            <section>
-                <h2>studios</h2>
-                <ul>
-                    <li><a href='journal'>Learning Journal</a></li>
-                    <li><a href='studio1'>Mad Libs 2.0</a></li>
-                    <li><a>Every Picture</a></li>
-                    <li><a>Game On!</a></li>
-                </ul>
-            </section>
-            <section>
-                <h2>experiments</h2>
-                <ul>
-                    <li><a href='exp/exp1.html'>exp1</a></li>
-                    <li><a href='exp/exp2.html'>exp2</a></li>
-                </ul>
-            </section>
+        <div id="banner">
+            <div id="backdrop"></div>
+            <div id="starfield"></div>
+            <div id="cursorstars"></div>
         </div>
-        <div class='section-group'>
-            <section>
-                <h2>r & d</h2>
-                <ul>
-                    <li><a>Project Brief</a></li>
-                    <li><a>Design Comp</a></li>
-                    <li><a>Version 1</a></li>
-                    <li><a>Version 2 (User Test)</a></li>
-                    <li><a>User Test Results</a></li>
-                </ul>
-            </section>
+
+        <div id="foreground"></div>
+
+        <main>
+            <div
+                class="marker box-open"
+                id="marker-studios"
+                data-target="#box-studios"
+            >
+                studios
+            </div>
+            <div
+                class="marker box-open"
+                id="marker-experiments"
+                data-target="#box-experiments"
+            >
+                experiments
+            </div>
+            <div class="marker box-open" id="marker-rd" data-target="#box-rd">
+                r & d
+            </div>
+            <div
+                class="marker box-open"
+                id="marker-final"
+                data-target="#box-final"
+            >
+                final
+            </div>
+        </main>
+
+        <div id="boxes">
+            <div class="box" id="box-studios">
+                <div class="toolbar">
+                    <div class="title">C:/ studios</div>
+                    <div class="exit-box"></div>
+                </div>
+                <div class="content">
+                    <h4>PROJECTS</h4>
+                    <p>
+                        <a href="studio1">mad libs</a>
+                    </p>
+                    <p>
+                        <a href="studio2">every picture</a>
+                    </p>
+                    <p>
+                        <a href="studio3">game on!</a>
+                    </p>
+                    <br />
+                    <h4>MISC</h4>
+                    <p>
+                        <a href="journal">learning journal</a>
+                    </p>
+                    <br />
+                </div>
+            </div>
+
+            <div class="box" id="box-experiments">
+                <div class="toolbar">
+                    <div class="title">C:/ experiments</div>
+                    <div class="exit-box"></div>
+                </div>
+                <div class="content">
+                    <h4>classwork</h4>
+                    <p>
+                        <a href="exp/exp1.html">exp1</a>
+                    </p>
+                    <p>
+                        <a href="exp/exp2.html">exp2</a>
+                    </p>
+                    <br />
+                    <h4>other</h4>
+                    <p>
+                        <a href="exp/test0">img manipulation</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="box" id="box-rd">
+                <div class="toolbar">
+                    <div class="title">C:/ research</div>
+                    <div class="exit-box"></div>
+                </div>
+                <div class="content">
+                    <h4>R&D</h4>
+                    <p>
+                        <a>project brief</a>
+                    </p>
+                    <p>
+                        <a>design comp</a>
+                    </p>
+                    <p>
+                        <a>version 1</a>
+                    </p>
+                    <p>
+                        <a>version 2 (user test)</a>
+                    </p>
+                    <p>
+                        <a>user test results</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="box" id="box-final">
+                <div class="toolbar">
+                    <div class="title">C:/ final</div>
+                    <div class="exit-box"></div>
+                </div>
+                <div class="content">
+                    <h4>FINAL</h4>
+                    <p>
+                        <a href="final">final project</a>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class='section-group'>
-            <section>
-                <h2>final</h2>
-                <ul>
-                    <li><a>Final Project</a></li>
-                </ul>
-            </section>
-        </div>
-    </main>
-
-    <footer>
-        <p>
-            click here for
-            <a
-                href="mailto:&#122;&#120;&#120;&#117;&#064;&#117;&#099;&#100;&#097;&#118;&#105;&#115;&#046;&#101;&#100;&#117;">email</a>
-        </p>
-    </footer>
-
-    <script type="text/javascript" src="script.js"></script>
-</body>
-
+    </body>
 </html>

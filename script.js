@@ -1,5 +1,9 @@
 'use strict';
 let $ = e => document.querySelector(e);
+let $$ = e => document.querySelectorAll(e);
+
+// hi snoopy
+// if you like my code please consider hiring me ;)
 
 function Particle(x, y, maxX, maxY, velocityX, velocityY, charset, lifespan) {
   this.x = x;
@@ -40,7 +44,7 @@ Particle.prototype.step = function() {
   }
 }
 
-function Field(el, width, height, left, top) {
+function Field(el, width, height, left, top, empty) {
   this.el = el;
   this.width = width;
   this.height = height;
@@ -51,11 +55,15 @@ function Field(el, width, height, left, top) {
     this.canvas[i] = new Array(width);
 
   this.particles = [];
-  for (let i = 0; i < 60; i++)
+  if (empty) return;
+
+  const density = width * height / 600 >> 0;
+
+  for (let i = 0; i < 6 * density; i++)
     this.randomParticle(0.3, 0, '*.');
-  for (let i = 0; i < 30; i++)
+  for (let i = 0; i < 3 * density; i++)
     this.randomParticle(0.6, 0.05, '*');
-  for (let i = 0; i < 20; i++)
+  for (let i = 0; i < 2 * density; i++)
     this.randomParticle(1.2, 0, '-.');
 }
 Field.prototype.randomParticle = function(velocityX, velocityY, charset) {
@@ -100,7 +108,7 @@ Field.prototype.print = function() {
   this.el.innerHTML = res;
 }
 
-let f, width, height, charWidth;
+let f, f2, width, height, charWidth;
 function resizeScreen() {
   // calculate width of one character
   charWidth = $('#charWidth').clientWidth / 10;
@@ -108,18 +116,70 @@ function resizeScreen() {
   height = ($('#banner').offsetHeight / 18 >> 0) + 1;
   let rect = $('#banner').getBoundingClientRect();
   f = new Field($('#starfield'), width, height, rect.left, rect.top);
+  f2 = new Field($('#cursorstars'), width, height, rect.left, rect.top, true);
 }
 addEventListener('resize', resizeScreen);
-addEventListener('mousemove', (e) => {
-  f.cursorStars(e.clientX, e.clientY);
-});
-
 function step() {
   f.step();
+  f2.step();
   requestAnimationFrame(step);
 }
 
 document.fonts.ready.then(() => {
   resizeScreen();
+  addEventListener('mousemove', e => {
+    f2.cursorStars(e.clientX, e.clientY);
+  });
   step();
 });
+
+$$('.box .toolbar').forEach(x => {
+  x.addEventListener('mousedown', dragStart);
+  x.addEventListener('mouseup', dragEnd);
+});
+$$('.box-open').forEach(x => x.addEventListener('click', openBox));
+$$('.box .exit-box').forEach(x => x.addEventListener('click', closeBox))
+$$('.box').forEach(x => x.addEventListener('mousedown', focus));
+
+let dragOrigin = [];
+let activeBox;
+function dragStart(e) {
+  e.preventDefault();
+  activeBox = e.currentTarget.parentNode;
+  const rect = activeBox.getBoundingClientRect();
+  dragOrigin = [e.clientX - rect.left, e.clientY - rect.top];
+  document.addEventListener('mousemove', drag);
+}
+function dragEnd(e) {
+  document.removeEventListener('mousemove', drag);
+}
+function drag(e) {
+  e.preventDefault();
+  activeBox.style.left = `${e.clientX - dragOrigin[0]}px`;
+  activeBox.style.top = `${e.clientY - dragOrigin[1]}px`;
+}
+
+function openBox(e) {
+  const target = $(e.currentTarget.dataset.target);
+  if (target.className === 'box open') return;
+
+  const rect = e.currentTarget.getBoundingClientRect();
+  if (rect.top > screen.height - 500) {
+    target.style.left = `${rect.left + 100}px`;
+    target.style.top = `${screen.height - 400}px`;
+  } else {
+    target.style.left = `${rect.left + 50}px`;
+    target.style.top = `${rect.top + 50}px`;
+  }
+
+  target.className = 'box open';
+}
+function closeBox(e) {
+  const target = e.currentTarget.parentNode.parentNode;
+  target.className = 'box';
+}
+
+let i = 6;
+function focus(e) {
+  e.currentTarget.style.zIndex = i++;
+}
