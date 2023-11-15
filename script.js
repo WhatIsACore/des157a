@@ -2,9 +2,6 @@
 let $ = e => document.querySelector(e);
 let $$ = e => document.querySelectorAll(e);
 
-// hi snoopy
-// if you like my code please consider hiring me ;)
-
 function Particle(x, y, maxX, maxY, velocityX, velocityY, charset, lifespan) {
   this.x = x;
   this.y = y;
