@@ -193,7 +193,7 @@ screens.fairy3 = {
     pCtx.drawImage(resources['fairy3.png'], width / 2 - 462, height / 2 - 208 + dy * 20, 325, 417);
 
     // description
-    let text = 'this fairy watches over\nnightmares, keeping you safe.\nsome say it\'s an angel, demon,\nor both.\n\nit may briefly paralyze you\nas you wake; do not be afraid!'.split('\n');
+    let text = 'this fairy watches over\nnightmares, keeping you safe.\nsome say it\'s an angel, demon,\nor both.\n\nit may paralyze you when\nyou wake up; don\'t be scared!'.split('\n');
     pCtx.save();
     pCtx.font = '46px Times New Roman';
     pCtx.fillStyle = '#222';
