@@ -68,8 +68,8 @@ h3 {
     bottom: 0;
     width: 100%;
 }
-.character.enemy .picture img {
-    transform: scale(-1, 1);
+.character.enemy .picture {
+    transform: translateX(120px) scale(-1, 1);
 }
 @keyframes bounce {
     0% {
@@ -83,9 +83,39 @@ h3 {
     }
 }
 .character.active .picture img {
-    animation: 1s ease 0 bounce;
+    animation: 1s ease-in 0 bounce;
     animation-iteration-count: infinite;
 }
+
+@keyframes rotate {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.character .target-selector {
+    position: absolute;
+    bottom: 5px;
+    margin: 0 50%;
+    width: 100px;
+    height: 100px;
+    border: 2px dashed #00f;
+    border-radius: 50px;
+    cursor: pointer;
+    animation: 16s linear 0 rotate;
+    animation-iteration-count: infinite;
+    opacity: 0.5;
+    z-index: 20;
+    display: none;
+}
+.character .target-selector:hover {
+    opacity: 1;
+    border: 2px dashed #00f;
+    background: rgba(0, 0, 255, 0.1);
+}
+
 .character .info {
     display: flex;
     flex-direction: row;
@@ -111,6 +141,7 @@ h3 {
 .character .remaining-health {
     height: 100%;
     background-color: #0f0;
+    transition: width 0.2s linear;
 }
 .character .actionbar {
     height: 10px;
@@ -159,6 +190,10 @@ h3 {
 .ui .actions-list .action-btn:hover {
     background-color: #eee;
 }
+.ui .actions .targeting-message {
+    display: none;
+    color: #00f;
+}
 
 .ui .dialogue {
     width: 0;
@@ -174,4 +209,53 @@ h3 {
 }
 .ui .dialogue .dialogue-line:not(:first-child) {
     opacity: 0.4;
+}
+.ui .dialogue .dialogue-line span {
+    color: #f00;
+}
+
+@keyframes attack {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(100px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+._attack .picture img {
+    animation: attack 0.5s;
+}
+@keyframes use {
+    0% {
+        transform: scaleY(1);
+    }
+    25% {
+        transform: scaleY(0.7);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+    75% {
+        transform: scaleY(0.7);
+    }
+    100% {
+        transform: scaleY(1);
+    }
+}
+._use .picture img {
+    animation: use 0.5s;
+}
+@keyframes die {
+    0% {
+        transform: translateY(0) scaleY(1);
+    }
+    100% {
+        transform: translateY(100px) scaleY(0);
+    }
+}
+._die .picture img {
+    animation: die 0.5s linear forwards;
 }

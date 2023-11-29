@@ -51,12 +51,17 @@ screens.battle = {
 
     if (battlePhase === 'action') {
       actingCharacter = actionQueue.pop();
+      if (actingCharacter.health <= 0) return;  // already dead cant move
+
       if (actingCharacter.isPC) {
         await getAction(actingCharacter);
       } else {
         await enemyTurn(actingCharacter);
       }
       actingCharacter.energy = 0;
+
+      await checkDeaths();
+
       if (actionQueue.length < 1)
         battlePhase = 'wait';
     }
@@ -73,21 +78,63 @@ async function getAction(character) {
   skillsListEl.innerHTML = '';
   for (let skill of character.skills)
     skillsListEl.innerHTML += `<div class="action-btn skill-btn" data-id="${skill}">${skills[skill].name}</div>`;
+
   $$('.skill-btn').forEach(x => x.addEventListener('click', useSkill));
 
   await new Promise(resolve => resolveInput = resolve);
-  character.el.classList.remove('active');
-  $('.actions').style.display = 'none';
 }
-function useSkill(e) {
-  let skill = skills[e.currentTarget.dataset.id];
-  dialogue(`${actingCharacter.name} used ${skill.name}!`);
+
+async function useSkill(e) {
+  const skill = skills[e.currentTarget.dataset.id];
+
+  switch (skill.targeting) {
+    case 'one enemy':
+      const enemy = await getTarget();
+      hideSkillMenu();
+      await skill.execute(actingCharacter, enemy);
+      break;
+    default:
+      hideSkillMenu();
+      await skill.execute(actingCharacter);
+  }
+
   resolveInput();
 }
 
+function hideSkillMenu() {
+  actingCharacter.el.classList.remove('active');
+  $('.actions').style.display = 'none';
+}
+
+async function getTarget() {
+  $('.actions-list').style.display = 'none';
+  $('.targeting-message').style.display = 'block';
+  $$('.enemy .target-selector').forEach(x => x.style.display = 'block');
+
+  const id = await new Promise(resolve => resolveTarget = resolve);
+
+  $('.actions-list').style.display = 'flex';
+  $$('.target-selector').forEach(x => x.style.display = 'none');
+  $('.targeting-message').style.display = 'none';
+
+  return characterMap[id];
+}
+
 async function enemyTurn(character) {
-  await timeout(500);
-  dialogue(`${character.name} used a move!`);
+  let skill = character.skills[Math.random() * character.skills.length >> 0];
+  skill = skills[skill];
+
+  await timeout(200);
+
+  switch (skill.targeting) {
+    case 'one enemy':
+      let targets = [cat, minion1, minion2].filter(x => x != null);
+      let target = targets[Math.random() * targets.length >> 0];
+      await skill.execute(actingCharacter, target);
+      break;
+    default:
+      await skill.execute(actingCharacter);
+  }
 }
 
 function nextWave() {
@@ -103,6 +150,14 @@ function nextWave() {
     enemy3.buildHTML();
   }
   dialogue(w.intro);
+}
+
+async function checkDeaths() {
+  if (minion1 != null && minion1.health <= 0) minion1 = null;
+  if (minion2 != null && minion2.health <= 0) minion2 = null;
+  if (enemy1 != null && enemy1.health <= 0) enemy1 = null;
+  if (enemy2 != null && enemy2.health <= 0) enemy2 = null;
+  if (enemy3 != null && enemy3.health <= 0) enemy3 = null;
 }
 
 let currentScreen;
