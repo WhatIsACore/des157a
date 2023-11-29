@@ -1,12 +1,15 @@
-const Character = function(src, el) {
+'use strict';
+
+const Character = function(src, el, isPC) {
   this.el = el;
+  this.isPC = isPC;
   this.name = src.name;
   this.sprite = src.sprite;
   this.maxHealth = src.health;
   this.health = src.health;
   this.speed = src.speed;
   this.energy = 0;
-  this.attacks = [...src.attacks];
+  this.skills = [...src.skills];
 }
 
 Character.prototype.buildHTML = function() {
@@ -19,7 +22,9 @@ Character.prototype.buildHTML = function() {
         <div class="name">${this.name}</div>
       </div>
       <div class="right">
-        <div class="healthbar"></div>
+        <div class="healthbar">
+          <div class="remaining-health"></div>
+        </div>
         <div class="actionbar"></div>
       </div>
     </div>
@@ -28,13 +33,13 @@ Character.prototype.buildHTML = function() {
 
 Character.prototype.updateHTML = function() {
   const healthiness = this.health / this.maxHealth * 100;
-  this.el.querySelector('.healthbar').style.width = `${healthiness}%`;
-  let actionProgress = this.energy / this.maxEnergy() * 100;
+  this.el.querySelector('.remaining-health').style.width = `${healthiness}%`;
+  let actionProgress = this.energy / this.actionEnergy() * 100;
   if (actionProgress > 100) actionProgress = 100;
   this.el.querySelector('.actionbar').style.width = `${actionProgress}%`;
 }
 
-Character.prototype.maxEnergy = function() {
+Character.prototype.actionEnergy = function() {
   return 1000 / this.speed;
 }
 
@@ -44,34 +49,34 @@ const characters = {
     sprite: 'cat.png',
     health: 100,
     speed: 20,
-    attacks: ['pounce', 'hiss', 'lick wounds']
+    skills: ['pounce', 'hiss', 'lickself']
   },
   martina: {
     name: 'martina',
     sprite: 'martina.png',
     health: 100,
     speed: 15,
-    attacks: []
+    skills: []
   },
   ashwin: {
     name: 'ashwin',
     sprite: 'ashwin.png',
     health: 150,
     speed: 18,
-    attacks: []
+    skills: []
   },
   sabrina: {
     name: 'sabrina',
     sprite: 'sabrina.png',
     health: 150,
-    speed: 18,
-    attacks: []
+    speed: 19,
+    skills: []
   },
   max: {
     name: 'max',
     sprite: 'max.png',
     health: 150,
-    speed: 18,
-    attacks: []
+    speed: 16,
+    skills: []
   }
 }

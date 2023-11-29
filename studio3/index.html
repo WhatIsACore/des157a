@@ -11,6 +11,7 @@
         />
         <link rel="stylesheet" type="text/css" href="style.css" />
         <script type="text/javascript" src="characters.js" defer></script>
+        <script type="text/javascript" src="skills.js" defer></script>
         <script type="text/javascript" src="script.js" defer></script>
     </head>
 
@@ -28,6 +29,26 @@
                     <div class="character enemy" id="char_enemy2"></div>
                     <div class="character enemy" id="char_enemy3"></div>
                 </div>
+            </div>
+            <div class="ui">
+                <div class="actions-wrapper">
+                    <div class="actions">
+                        <h2 class="action-title">
+                            <span id="acting_name"></span>'s turn!
+                        </h2>
+                        <div class="actions-list">
+                            <div class="actions-column">
+                                <h3>skills:</h3>
+                                <div id="skills_list"></div>
+                            </div>
+                            <div class="actions-column">
+                                <h3>items:</h3>
+                                <div id="items_list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialogue" id="dialogue"></div>
             </div>
         </div>
         <div class="screen" id="screen_shop"></div>
