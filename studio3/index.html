@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>game on</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <script type="text/javascript" src="characters.js" defer></script>
+        <script type="text/javascript" src="script.js" defer></script>
+    </head>
+
+    <body>
+        <div class="screen active" id="screen_start"></div>
+        <div class="screen" id="screen_battle">
+            <div class="field">
+                <div class="allies">
+                    <div class="character ally" id="char_cat"></div>
+                    <div class="character ally" id="char_minion1"></div>
+                    <div class="character ally" id="char_minion2"></div>
+                </div>
+                <div class="enemies">
+                    <div class="character enemy" id="char_enemy1"></div>
+                    <div class="character enemy" id="char_enemy2"></div>
+                    <div class="character enemy" id="char_enemy3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="screen" id="screen_shop"></div>
+    </body>
+</html>

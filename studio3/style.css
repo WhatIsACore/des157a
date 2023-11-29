@@ -1,0 +1,87 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "VT323";
+}
+
+.screen {
+    display: none;
+}
+.screen.active {
+    display: block;
+}
+
+.field {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 1000px;
+    margin: 100px auto 0;
+    position: relative;
+    right: 100px;
+}
+.field .allies,
+.field .enemies {
+    width: 400px;
+    text-align: center;
+}
+.character {
+    position: relative;
+    width: 250px;
+    height: 100px;
+}
+.character#char_minion1,
+.character#char_enemy2 {
+    left: 150px;
+    bottom: 20px;
+}
+.character#char_minion2,
+.character#char_enemy3 {
+    left: 300px;
+    bottom: 40px;
+}
+.character .picture {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 5px;
+    position: relative;
+}
+.character .picture img {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.character.enemy .picture img {
+    transform: scale(-1, 1);
+}
+.character .info {
+    display: flex;
+    flex-direction: row;
+}
+.character .info .left {
+    flex-grow: 1;
+    width: 100px;
+    margin-right: 10px;
+}
+.character .info .right {
+    flex-grow: 2;
+    width: 100px;
+}
+.character .name {
+    text-align: right;
+    font-size: 20px;
+}
+.character .healthbar {
+    height: 10px;
+    background-color: #0f0;
+    margin-bottom: 3px;
+}
+.character .actionbar {
+    height: 10px;
+    background-color: #00f;
+    margin-bottom: 3px;
+}
