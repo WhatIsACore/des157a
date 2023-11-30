@@ -47,13 +47,13 @@ h3 {
     width: 250px;
     height: 100px;
 }
-.character#char_minion1,
-.character#char_enemy2 {
+.character#minion1,
+.character#enemy2 {
     left: 150px;
     bottom: 20px;
 }
-.character#char_minion2,
-.character#char_enemy3 {
+.character#minion2,
+.character#enemy3 {
     left: 300px;
     bottom: 40px;
 }
@@ -101,7 +101,7 @@ h3 {
     margin: 0 50%;
     width: 100px;
     height: 100px;
-    border: 2px dashed #00f;
+    border: 2px dashed #000;
     border-radius: 50px;
     cursor: pointer;
     animation: 16s linear 0 rotate;
@@ -112,8 +112,8 @@ h3 {
 }
 .character .target-selector:hover {
     opacity: 1;
-    border: 2px dashed #00f;
-    background: rgba(0, 0, 255, 0.1);
+    border: 2px dashed #000;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .character .info {
@@ -186,9 +186,24 @@ h3 {
     margin-bottom: 4px;
     text-align: center;
     cursor: pointer;
+    position: relative;
 }
 .ui .actions-list .action-btn:hover {
     background-color: #eee;
+}
+.ui .actions-list .action-btn[data-description]::before {
+    width: 300px;
+    text-align: left;
+    position: absolute;
+    padding: 5px;
+    background: #fff;
+    content: attr(data-description);
+    display: none;
+    left: calc(100% + 10px);
+    top: -3px;
+}
+.ui .actions-list .action-btn[data-description]:hover::before {
+    display: block;
 }
 .ui .actions .targeting-message {
     display: none;
@@ -212,6 +227,31 @@ h3 {
 }
 .ui .dialogue .dialogue-line span {
     color: #f00;
+}
+
+@keyframes damage {
+    from {
+        filter: brightness(0%) saturate(100%) invert(16%) sepia(93%)
+            saturate(6447%) hue-rotate(1deg) brightness(96%) contrast(118%);
+    }
+    to {
+        filter: none;
+    }
+}
+._damage .picture img {
+    animation: damage 0.5s linear forwards;
+}
+@keyframes heal {
+    from {
+        filter: brightness(0%) saturate(100%) invert(58%) sepia(62%)
+            saturate(4294%) hue-rotate(87deg) brightness(121%) contrast(124%);
+    }
+    to {
+        filter: none;
+    }
+}
+._heal .picture img {
+    animation: heal 0.5s linear forwards;
 }
 
 @keyframes attack {
@@ -258,4 +298,34 @@ h3 {
 }
 ._die .picture img {
     animation: die 0.5s linear forwards;
+}
+@keyframes capturing {
+    0% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(0.9, 0.9);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+._capturing .picture img {
+    animation: capturing 1s ease;
+    animation-iteration-count: infinite;
+}
+@keyframes fast-bounce {
+    0% {
+        bottom: 0;
+    }
+    50% {
+        bottom: 20px;
+    }
+    100% {
+        bottom: 0;
+    }
+}
+._fast-bounce .picture img {
+    animation: fast-bounce 0.4s ease-in;
+    animation-iteration-count: infinite;
 }

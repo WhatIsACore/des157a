@@ -1,28 +1,49 @@
 'use strict';
 
-const characterMap = {};
-const Character = function(src, el, isPC) {
-  this.el = el;
-  characterMap[el.id] = this;
+let characters = {
+  cat: null,
+  minion1: null,
+  minion2: null,
+  enemy1: null,
+  enemy2: null,
+  enemy3: null
+}
+
+const Character = function(src, id, isPC) {
   this.isPC = isPC;
   this.name = src.name;
-  this.isCat = src.name === 'cat';
   this.sprite = src.sprite;
   this.maxHealth = src.health;
   this.health = src.health;
   this.speed = src.speed;
   this.energy = 0;
   this.skills = [...src.skills];
+  this.assignId(id);
 }
 
+Character.prototype.assignId = function(id) {
+  if (this.id != null) {
+    this.el.innerHTML = null;
+    delete characters[this.id];
+  }
+  this.id = id;
+  this.el = $('#' + id);
+  this.buildHTML();
+  characters[id] = this;
+}
+Character.prototype.animate = function(effect, ms) {
+  this.el.classList.add(effect);
+  setTimeout(() => {this.el.classList.remove(effect)}, ms);
+}
 Character.prototype.damage = async function(amount) {
-  if (this.isCat) amount /= 2;
+  this.animate('_damage', 500);
   this.health -= amount;
   this.updateHTML();
 
   if (this.health <= 0) await this.die();
 }
 Character.prototype.heal = function(amount) {
+  this.animate('_heal', 500);
   this.health += amount;
   if (this.health > this.maxHealth) this.health = this.maxHealth;
   this.updateHTML();
@@ -33,7 +54,20 @@ Character.prototype.die = async function() {
   this.el.classList.add('_die');
   await timeout(750);
   this.el.innerHTML = '';
-  delete characterMap[this.el.id];
+  this.el.classList.remove('_die');
+  delete characters[this.id];
+}
+
+Character.prototype.getAllies = function(includeSelf) {
+    let res = this.isPC ? [characters.cat, characters.minion1, characters.minion2] : [characters.enemy1, characters.enemy2, characters.enemy3];
+    res = res.filter(x => x != null);
+    if (!includeSelf) res = res.filter(x => x.id !== this.id);
+    return res;
+}
+Character.prototype.getEnemies = function() {
+  let res = this.isPC ? [characters.enemy1, characters.enemy2, characters.enemy3] : [characters.cat, characters.minion1, characters.minion2];
+  res = res.filter(x => x != null);
+  return res;
 }
 
 Character.prototype.buildHTML = function() {
@@ -70,20 +104,38 @@ Character.prototype.actionEnergy = function() {
   return 1000 / this.speed;
 }
 
-const characters = {
+const waves = {
+  1: {
+    intro: 'two hoodlums appear in front of you!',
+    enemies: ['max', 'sabrina']
+  },
+  2: {
+    intro: 'pressing on, you stumble across a strange person.',
+    enemies: ['ashwin']
+  }
+}
+
+const characterData = {
   cat: {
     name: 'cat',
     sprite: 'cat.png',
-    health: 100,
+    health: 200,
     speed: 20,
-    skills: ['pounce', 'hiss', 'lickself']
+    skills: ['pounce', 'hiss', 'lickself', 'capture']
   },
-  martina: {
-    name: 'martina',
-    sprite: 'martina.png',
-    health: 100,
-    speed: 15,
+  sabrina: {
+    name: 'sabrina',
+    sprite: 'sabrina.png',
+    health: 130,
+    speed: 18,
     skills: ['punch']
+  },
+  max: {
+    name: 'max',
+    sprite: 'max.png',
+    health: 130,
+    speed: 16,
+    skills: ['punch', 'rave']
   },
   ashwin: {
     name: 'ashwin',
@@ -92,18 +144,11 @@ const characters = {
     speed: 18,
     skills: ['punch']
   },
-  sabrina: {
-    name: 'sabrina',
-    sprite: 'sabrina.png',
-    health: 120,
-    speed: 19,
-    skills: ['punch']
-  },
-  max: {
-    name: 'max',
-    sprite: 'max.png',
-    health: 120,
-    speed: 16,
+  martina: {
+    name: 'martina',
+    sprite: 'martina.png',
+    health: 100,
+    speed: 15,
     skills: ['punch']
   }
 }

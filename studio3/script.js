@@ -7,29 +7,20 @@ const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 let resolveInput, resolveTarget;
 let money = 100;
-let cat = new Character(characters.cat, $('#char_cat'), true);
-let minion1, minion2;
-let enemy1, enemy2, enemy3;
 let battlePhase = 'none';
 let wave = 0;
-const waves = {
-  1: {
-    intro: 'three clumsy hoodlums appear in front of you!',
-    enemies: ['max', 'ashwin', 'sabrina']
-  }
-}
 let actionQueue = [];
 let actingCharacter;
 
 const screens = {};
 screens.battle = {
   init: async () => {
-    cat.buildHTML();
+    characters.cat.buildHTML();
     battlePhase = 'intro';
     nextWave();
   },
   step: async () => {
-    let everyone = [cat, minion1, minion2, enemy1, enemy2, enemy3].filter(x => x != null);
+    let everyone = Object.values(characters).filter(x => x != null);
 
     if (battlePhase === 'intro') {
       // TODO: add intro
@@ -60,14 +51,24 @@ screens.battle = {
       }
       actingCharacter.energy = 0;
 
-      await checkDeaths();
+      // everyone is defeated or captured
+      if (characters.enemy1 == null && characters.enemy2 == null && characters.enemy3 == null)
+        return setScreen('shop');
 
       if (actionQueue.length < 1)
         battlePhase = 'wait';
     }
 
   }
-}
+};
+
+screens.shop = {
+  init: async () => {
+    await timeout(500);
+    setScreen('battle');  // todo: make an actual shop
+  },
+  step: async () => {}
+};
 
 let skillsListEl = $('#skills_list')
 async function getAction(character) {
@@ -77,7 +78,9 @@ async function getAction(character) {
   $('#acting_name').innerText = character.name;
   skillsListEl.innerHTML = '';
   for (let skill of character.skills)
-    skillsListEl.innerHTML += `<div class="action-btn skill-btn" data-id="${skill}">${skills[skill].name}</div>`;
+    skillsListEl.innerHTML += `
+      <div class="action-btn skill-btn" data-id="${skill}" data-description="${skills[skill].description}">${skills[skill].name}</div>
+    `;
 
   $$('.skill-btn').forEach(x => x.addEventListener('click', useSkill));
 
@@ -117,7 +120,7 @@ async function getTarget() {
   $$('.target-selector').forEach(x => x.style.display = 'none');
   $('.targeting-message').style.display = 'none';
 
-  return characterMap[id];
+  return characters[id];
 }
 
 async function enemyTurn(character) {
@@ -128,7 +131,7 @@ async function enemyTurn(character) {
 
   switch (skill.targeting) {
     case 'one enemy':
-      let targets = [cat, minion1, minion2].filter(x => x != null);
+      let targets = [characters.cat, characters.minion1, characters.minion2].filter(x => x != null);
       let target = targets[Math.random() * targets.length >> 0];
       await skill.execute(actingCharacter, target);
       break;
@@ -139,25 +142,12 @@ async function enemyTurn(character) {
 
 function nextWave() {
   let w = waves[++wave];
-  enemy1 = new Character(characters[w.enemies[0]], $('#char_enemy1'), false);
-  enemy1.buildHTML();
-  if (w.enemies.length > 1) {
-    enemy2 = new Character(characters[w.enemies[1]], $('#char_enemy2'), false);
-    enemy2.buildHTML();
-  }
-  if (w.enemies.length > 2) {
-    enemy3 = new Character(characters[w.enemies[2]], $('#char_enemy3'), false);
-    enemy3.buildHTML();
-  }
+  new Character(characterData[w.enemies[0]], 'enemy1', false);
+  if (w.enemies.length > 1)
+    new Character(characterData[w.enemies[1]], 'enemy2', false);
+  if (w.enemies.length > 2)
+    new Character(characterData[w.enemies[2]], 'enemy3', false);
   dialogue(w.intro);
-}
-
-async function checkDeaths() {
-  if (minion1 != null && minion1.health <= 0) minion1 = null;
-  if (minion2 != null && minion2.health <= 0) minion2 = null;
-  if (enemy1 != null && enemy1.health <= 0) enemy1 = null;
-  if (enemy2 != null && enemy2.health <= 0) enemy2 = null;
-  if (enemy3 != null && enemy3.health <= 0) enemy3 = null;
 }
 
 let currentScreen;
@@ -179,6 +169,7 @@ async function step() {
 }
 
 async function init() {
+  characters.cat = new Character(characterData.cat, 'cat', true)
   await setScreen('battle');
   requestAnimationFrame(step);
 }
