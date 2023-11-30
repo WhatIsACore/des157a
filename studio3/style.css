@@ -188,7 +188,11 @@ h3 {
     cursor: pointer;
     position: relative;
 }
-.ui .actions-list .action-btn:hover {
+.ui .actions-list .action-btn.disabled {
+    opacity: 0.5;
+    cursor: auto;
+}
+.ui .actions-list .action-btn:not(.disabled):hover {
     background-color: #eee;
 }
 .ui .actions-list .action-btn[data-description]::before {
@@ -218,6 +222,9 @@ h3 {
     border: 2px solid #000;
     overflow: hidden;
     font-size: 22px;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
 }
 .ui .dialogue .dialogue-line {
     transition: opacity 0.3s ease;
@@ -252,6 +259,10 @@ h3 {
 }
 ._heal .picture img {
     animation: heal 0.5s linear forwards;
+}
+
+._energy-change .actionbar {
+    transition: width 0.3s linear;
 }
 
 @keyframes attack {
@@ -328,4 +339,40 @@ h3 {
 ._fast-bounce .picture img {
     animation: fast-bounce 0.4s ease-in;
     animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    33% {
+        transform: translateX(-10px);
+    }
+    66% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+._shake .picture img {
+    animation: shake 0.4s linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes drainwave {
+    0% {
+        filter: brightness(0) saturate(100%) sepia(100%) saturate(7490%)
+            hue-rotate(354deg) brightness(106%) contrast(105%);
+    }
+    25% {
+        filter: invert(1);
+    }
+    50% {
+        filter: brightness(0) saturate(100%) invert(30%) sepia(100%)
+            saturate(7362%) hue-rotate(281deg) brightness(105%) contrast(125%);
+    }
+}
+body._drainwave {
+    animation: drainwave 0.8s linear forwards;
 }

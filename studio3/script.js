@@ -49,7 +49,12 @@ screens.battle = {
       } else {
         await enemyTurn(actingCharacter);
       }
+      await timeout(600);
       actingCharacter.energy = 0;
+
+      await Promise.all(everyone.map(async x => {
+        if (x.health <= 0) await x.die()
+      }));
 
       // everyone is defeated or captured
       if (characters.enemy1 == null && characters.enemy2 == null && characters.enemy3 == null)
@@ -77,10 +82,13 @@ async function getAction(character) {
   $('.actions').style.display = 'block';
   $('#acting_name').innerText = character.name;
   skillsListEl.innerHTML = '';
-  for (let skill of character.skills)
+  for (let i of character.skills) {
+    const skill = skills[i];
+    const usable = skill.isUsable != null ? skill.isUsable(actingCharacter) : true;
     skillsListEl.innerHTML += `
-      <div class="action-btn skill-btn" data-id="${skill}" data-description="${skills[skill].description}">${skills[skill].name}</div>
+      <div class="action-btn skill-btn${usable ? '' : ' disabled'}" data-id="${i}" data-description="${skill.description}">${skill.name}</div>
     `;
+  }
 
   $$('.skill-btn').forEach(x => x.addEventListener('click', useSkill));
 
@@ -89,6 +97,7 @@ async function getAction(character) {
 
 async function useSkill(e) {
   const skill = skills[e.currentTarget.dataset.id];
+  if (skill.isUsable != null && !skill.isUsable(actingCharacter)) return;
 
   switch (skill.targeting) {
     case 'one enemy':

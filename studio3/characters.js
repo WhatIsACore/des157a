@@ -30,6 +30,7 @@ Character.prototype.assignId = function(id) {
   this.el = $('#' + id);
   this.buildHTML();
   characters[id] = this;
+  this.updateHTML();
 }
 Character.prototype.animate = function(effect, ms) {
   this.el.classList.add(effect);
@@ -39,8 +40,6 @@ Character.prototype.damage = async function(amount) {
   this.animate('_damage', 500);
   this.health -= amount;
   this.updateHTML();
-
-  if (this.health <= 0) await this.die();
 }
 Character.prototype.heal = function(amount) {
   this.animate('_heal', 500);
@@ -106,12 +105,24 @@ Character.prototype.actionEnergy = function() {
 
 const waves = {
   1: {
+    intro: 'hello!',
+    enemies: ['martina']
+  },
+  2: {
     intro: 'two hoodlums appear in front of you!',
     enemies: ['max', 'sabrina']
   },
-  2: {
-    intro: 'pressing on, you stumble across a strange person.',
+  3: {
+    intro: 'it looks like a photography club!',
+    enemies: ['martina', 'martina', 'martina']
+  },
+  4: {
+    intro: 'you stumble across a strange person!',
     enemies: ['ashwin']
+  },
+  5: {
+    intro: 'almost there!',
+    enemies: ['sabrina', 'sabrina'],
   }
 }
 
@@ -128,7 +139,7 @@ const characterData = {
     sprite: 'sabrina.png',
     health: 130,
     speed: 18,
-    skills: ['punch']
+    skills: ['punch', 'doublepunch']
   },
   max: {
     name: 'max',
@@ -140,14 +151,14 @@ const characterData = {
   ashwin: {
     name: 'ashwin',
     sprite: 'ashwin.png',
-    health: 120,
-    speed: 18,
-    skills: ['punch']
+    health: 190,
+    speed: 14,
+    skills: ['drainwave']
   },
   martina: {
     name: 'martina',
     sprite: 'martina.png',
-    health: 100,
+    health: 110,
     speed: 15,
     skills: ['punch']
   }
