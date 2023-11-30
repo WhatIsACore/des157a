@@ -84,7 +84,7 @@ const skills = {
   },
   doublepunch: {
     name: 'double punch',
-    description: 'hit em with the wombo combo! might miss.',
+    description: 'swing at an enemy twice! this attack can miss.',
     targeting: 'one enemy',
     execute: async (user, target) => {
       dialogue(`${user.name} surprises ${target.name} with a two-punch combo!`);
@@ -119,7 +119,7 @@ const skills = {
   },
   drainwave: {
     name: 'drainwave',
-    description: 'send out a wave of drainer energy that hurts everyone.',
+    description: 'release a wave of drainer energy that damages everyone.',
     targeting: 'all',
     execute: async (user) => {
       dialogue(`${user.name} unleashes a wave of energy!`);
