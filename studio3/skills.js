@@ -107,7 +107,7 @@ const skills = {
     name: 'pom rave',
     description: 'heals all friends and slightly hurts all enemies.',
     execute: async (user) => {
-      dialogue(`${user.name} plays a bangin mix!`);
+      dialogue(`${user.name} plays dancey music!`);
       user.getAllies(true).forEach(x => x.animate('_fast-bounce', 800));
       await timeout(800);
       user.getAllies(true).forEach(x => x.heal(20));
