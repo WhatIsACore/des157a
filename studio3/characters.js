@@ -105,7 +105,7 @@ Character.prototype.actionEnergy = function() {
 
 const waves = {
   1: {
-    intro: 'hello!',
+    intro: 'fight for your life!',
     enemies: ['martina']
   },
   2: {
@@ -117,7 +117,7 @@ const waves = {
     enemies: ['martina', 'martina', 'martina']
   },
   4: {
-    intro: 'you stumble across a strange person!',
+    intro: 'you stumble across a strange enemy!',
     enemies: ['ashwin']
   },
   5: {
