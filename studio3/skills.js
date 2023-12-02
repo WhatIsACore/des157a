@@ -1,5 +1,6 @@
 'use strict';
 
+// every skill and its behaviors are defined here
 const skills = {
   pounce: {
     name: 'pounce',
@@ -18,6 +19,7 @@ const skills = {
     description: 'hiss hisss hisss',
     targeting: 'all enemies',
     execute: async (user) => {
+      sounds['hiss.mp3'].play();
       dialogue(`${user.name} hisses menacingly!`);
       user.animate('_fast-bounce', 800)
       await timeout(500);
@@ -35,6 +37,7 @@ const skills = {
     description: 'groom yourself in public.',
     targeting: 'self',
     execute: async (user) => {
+      sounds['meow.mp3'].play();
       dialogue(`${user.name} licks themselves!`);
       user.animate('_use', 500);
       await timeout(250);
@@ -122,6 +125,7 @@ const skills = {
     description: 'release a wave of drainer energy that damages everyone.',
     targeting: 'all',
     execute: async (user) => {
+      sounds['glitch.mp3'].play();
       dialogue(`${user.name} unleashes a wave of energy!`);
       animateScreen('_drainwave', 800);
       await timeout(800);

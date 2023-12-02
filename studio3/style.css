@@ -38,6 +38,10 @@ h3 {
 .intro h1 {
     font-size: 64px;
 }
+.intro img {
+    margin: 20px 0 0;
+    width: 250px;
+}
 .intro p {
     font-size: 28px;
 }

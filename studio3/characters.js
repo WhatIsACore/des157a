@@ -21,6 +21,7 @@ const Character = function(src, id, isPC) {
   this.assignId(id);
 }
 
+// assign id: on creation and on position change (such as on capture)
 Character.prototype.assignId = function(id) {
   if (this.id != null) {
     this.el.innerHTML = null;
@@ -32,22 +33,23 @@ Character.prototype.assignId = function(id) {
   characters[id] = this;
   this.updateHTML();
 }
-Character.prototype.animate = function(effect, ms) {
+Character.prototype.animate = function(effect, ms) {  // play a css animation on this character
   this.el.classList.add(effect);
   setTimeout(() => {this.el.classList.remove(effect)}, ms);
 }
-Character.prototype.damage = async function(amount) {
+Character.prototype.damage = async function(amount) {  // hurt this character
+  sounds['hit.mp3'].play();
   this.animate('_damage', 500);
   this.health -= amount;
   this.updateHTML();
 }
-Character.prototype.heal = function(amount) {
+Character.prototype.heal = function(amount) {  // heal this character
   this.animate('_heal', 500);
   this.health += amount;
   if (this.health > this.maxHealth) this.health = this.maxHealth;
   this.updateHTML();
 }
-Character.prototype.die = async function() {
+Character.prototype.die = async function() {  // dead this character :O
   await timeout(500);
   dialogue(`<span>${this.name} is defeated!</span>`);
   this.el.classList.add('_die');
@@ -57,18 +59,19 @@ Character.prototype.die = async function() {
   delete characters[this.id];
 }
 
-Character.prototype.getAllies = function(includeSelf) {
+Character.prototype.getAllies = function(includeSelf) {  // return a list of characters considered "allies" of this caracter
     let res = this.isPC ? [characters.cat, characters.minion1, characters.minion2] : [characters.enemy1, characters.enemy2, characters.enemy3];
     res = res.filter(x => x != null);
     if (!includeSelf) res = res.filter(x => x.id !== this.id);
     return res;
 }
-Character.prototype.getEnemies = function() {
+Character.prototype.getEnemies = function() {  // return a list of characters considered "enemies" of this character
   let res = this.isPC ? [characters.enemy1, characters.enemy2, characters.enemy3] : [characters.cat, characters.minion1, characters.minion2];
   res = res.filter(x => x != null);
   return res;
 }
 
+// build this character's html
 Character.prototype.buildHTML = function() {
   this.el.innerHTML = `
     <div class="picture">
@@ -90,6 +93,7 @@ Character.prototype.buildHTML = function() {
   this.el.querySelector('.target-selector').addEventListener('click', e => resolveTarget(e.currentTarget.parentNode.id));
 }
 
+// update this character's health, energy, and other displays
 Character.prototype.updateHTML = function() {
   let healthiness = this.health / this.maxHealth * 100;
   if (healthiness < 0) healthiness = 0;
@@ -103,6 +107,7 @@ Character.prototype.actionEnergy = function() {
   return 1000 / this.speed;
 }
 
+// defines what characters appear each wave
 const waves = {
   1: {
     intro: 'fight for your life!',
@@ -126,6 +131,7 @@ const waves = {
   }
 }
 
+// list of characters and their data
 const characterData = {
   cat: {
     name: 'cat',

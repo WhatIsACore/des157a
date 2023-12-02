@@ -5,6 +5,10 @@ const $ = e => document.querySelector(e);
 const $$ = e => document.querySelectorAll(e);
 const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+// sounds
+const sounds = {};
+['flutey.mp3', 'click.mp3', 'hit.mp3', 'meow.mp3', 'hiss.mp3', 'glitch.mp3'].forEach(x => sounds[x] = new Audio('sounds/' + x));
+
 let resolveInput, resolveTarget;
 let money = 100;
 let battlePhase = 'none';
@@ -27,6 +31,7 @@ screens.battle = {
       battlePhase = 'wait';
     }
 
+    // charge everyone's energy meters until one fills
     if (battlePhase === 'wait') {
       everyone.forEach(x => {
         x.energy++;
@@ -40,6 +45,7 @@ screens.battle = {
         battlePhase = 'action';
     }
 
+    // execute actions and reset energy meters
     if (battlePhase === 'action') {
       actingCharacter = actionQueue.pop();
       if (actingCharacter.health <= 0) return;  // already dead cant move
@@ -52,11 +58,12 @@ screens.battle = {
       await timeout(600);
       actingCharacter.energy = 0;
 
+      // kill anyone that died
       await Promise.all(everyone.map(async x => {
         if (x.health <= 0) await x.die()
       }));
 
-      // everyone is defeated or captured
+      // all enemies defeated or captured? to shop
       if (characters.enemy1 == null && characters.enemy2 == null && characters.enemy3 == null)
         return setScreen('shop');
 
@@ -70,7 +77,7 @@ screens.battle = {
 screens.shop = {
   init: async () => {
     await timeout(500);
-    setScreen('battle');  // todo: make an actual shop
+    setScreen('battle');  // todo: make shop for upgrades between waves
   },
   step: async () => {}
 };
@@ -79,6 +86,7 @@ let skillsListEl = $('#skills_list')
 async function getAction(character) {
   character.el.classList.add('active');
 
+  // display the skills available to acting character
   $('.actions').style.display = 'block';
   $('#acting_name').innerText = character.name;
   skillsListEl.innerHTML = '';
@@ -92,16 +100,20 @@ async function getAction(character) {
 
   $$('.skill-btn').forEach(x => x.addEventListener('click', useSkill));
 
-  await new Promise(resolve => resolveInput = resolve);
+  await new Promise(resolve => resolveInput = resolve);  // wait for skill to be used before continuing
 }
 
 async function useSkill(e) {
   const skill = skills[e.currentTarget.dataset.id];
   if (skill.isUsable != null && !skill.isUsable(actingCharacter)) return;
 
+  sounds['click.mp3'].play();
+
+  // handle targeting options
   switch (skill.targeting) {
     case 'one enemy':
       const enemy = await getTarget();
+      sounds['click.mp3'].play();
       hideSkillMenu();
       await skill.execute(actingCharacter, enemy);
       break;
@@ -119,6 +131,7 @@ function hideSkillMenu() {
 }
 
 async function getTarget() {
+  // display the relevant target selectors
   $('.actions-list').style.display = 'none';
   $('.targeting-message').style.display = 'block';
   $$('.enemy .target-selector').forEach(x => x.style.display = 'block');
@@ -133,6 +146,7 @@ async function getTarget() {
 }
 
 async function enemyTurn(character) {
+  // enemies: pick a random move and random valid target
   let skill = character.skills[Math.random() * character.skills.length >> 0];
   skill = skills[skill];
 
@@ -150,6 +164,7 @@ async function enemyTurn(character) {
 }
 
 function nextWave() {
+  // get the data for the next wave and build the characters involved
   let w = waves[++wave];
   new Character(characterData[w.enemies[0]], 'enemy1', false);
   if (w.enemies.length > 1)
@@ -167,7 +182,7 @@ async function setScreen(screen) {
 }
 
 const dialogueBox = $('#dialogue');
-function dialogue(content) {
+function dialogue(content) {  // outputs dialogue to the dialogue box
   const text = `<div class="dialogue-line">${content}</div>`;
   dialogueBox.insertAdjacentHTML('afterbegin', text);
 }
@@ -177,9 +192,14 @@ async function step() {
   requestAnimationFrame(step);
 }
 
-async function init() {
+async function init() {  // initialize everything on form submit (input name)
+  sounds['click.mp3'].play();
+  sounds['flutey.mp3'].loop = true;
+  sounds['flutey.mp3'].play();  // music
+
   const name = $('#cat_name').value;
   if (name.length < 1) return;
+  sounds['meow.mp3'].play();
   new Character(characterData.cat, 'cat', true).name = name;
   await setScreen('battle');
   requestAnimationFrame(step);
