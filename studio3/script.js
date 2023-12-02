@@ -178,8 +178,10 @@ async function step() {
 }
 
 async function init() {
-  characters.cat = new Character(characterData.cat, 'cat', true)
+  const name = $('#cat_name').value;
+  if (name.length < 1) return;
+  new Character(characterData.cat, 'cat', true).name = name;
   await setScreen('battle');
   requestAnimationFrame(step);
 }
-init();
+$('#start').addEventListener('click', init);

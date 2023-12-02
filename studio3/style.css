@@ -23,11 +23,58 @@ h3 {
     position: absolute;
     display: none;
     width: 100vw;
+    height: 100vh;
 }
 .screen.active {
     display: block;
 }
 
+.intro {
+    display: block;
+    width: 1000px;
+    margin: 100px auto;
+    text-align: center;
+}
+.intro h1 {
+    font-size: 64px;
+}
+.intro p {
+    font-size: 28px;
+}
+.intro input {
+    font-size: 20px;
+    width: 200px;
+    padding: 3px;
+    border: none;
+    font-family: "VT323", monospace;
+    border: 2px solid #ccc;
+    outline: none;
+}
+.intro .submit-btn {
+    font-size: 20px;
+    width: 100px;
+    display: inline-block;
+    padding: 3px;
+    border: 2px solid #000;
+    text-align: center;
+    cursor: pointer;
+}
+.intro .submit-btn:hover {
+    background-color: #eee;
+}
+.backdrop {
+    position: absolute;
+    width: 1000px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    height: 50vh;
+    background: url(images/backdrop.png);
+    background-size: cover;
+    background-position: bottom;
+    opacity: 0.4;
+    z-index: -1;
+}
 .field {
     display: flex;
     flex-direction: row;
@@ -36,6 +83,7 @@ h3 {
     margin: 100px auto 0;
     position: relative;
     right: 100px;
+    z-index: 1;
 }
 .field .allies,
 .field .enemies {
@@ -151,9 +199,12 @@ h3 {
 
 .ui {
     display: flex;
+    position: relative;
     flex-direction: row;
     width: 1000px;
     margin: 60px auto 0;
+    z-index: 2;
+    background: #fff;
 }
 .ui .actions-wrapper {
     width: 0;
