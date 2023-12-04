@@ -1,0 +1,33 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+main {
+    margin: 100px 340px;
+}
+main h1 {
+    color: #442;
+}
+main p {
+    font-size: 24px;
+    color: #442;
+}
+
+@media screen and (max-width: 1300px) {
+    main {
+        margin: 100px 200px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    main {
+        margin: 80px 120px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    main {
+        margin: 60px 80px;
+    }
+}
