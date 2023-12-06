@@ -37,7 +37,7 @@ Character.prototype.animate = function(effect, ms) {  // play a css animation on
   this.el.classList.add(effect);
   setTimeout(() => {this.el.classList.remove(effect)}, ms);
 }
-Character.prototype.damage = async function(amount) {  // hurt this character
+Character.prototype.damage = function(amount) {  // hurt this character
   sounds['hit.mp3'].play();
   this.animate('_damage', 500);
   this.health -= amount;
@@ -49,9 +49,16 @@ Character.prototype.heal = function(amount) {  // heal this character
   if (this.health > this.maxHealth) this.health = this.maxHealth;
   this.updateHTML();
 }
+Character.prototype.changeEnergy = function(amount) {  // energy change
+  this.animate('_energy-change', 300);
+  this.energy += amount;
+  if (this.energy < 0) this.energy = 0;
+  if (this.energy > this.actionEnergy()) this.energy = this.actionEnergy();
+  this.updateHTML();
+}
 Character.prototype.die = async function() {  // dead this character :O
   await timeout(500);
-  dialogue(`<span>${this.name} is defeated!</span>`);
+  dialogue(`<span class='death'>${this.name} is defeated!</span>`);
   this.el.classList.add('_die');
   await timeout(750);
   this.el.innerHTML = '';
@@ -110,7 +117,7 @@ Character.prototype.actionEnergy = function() {
 // defines what characters appear each wave
 const waves = {
   1: {
-    intro: 'fight for your life!',
+    intro: 'it\'s a smelly hallway...',
     enemies: ['martina']
   },
   2: {
@@ -118,11 +125,11 @@ const waves = {
     enemies: ['max', 'sabrina']
   },
   3: {
-    intro: 'it looks like a photography club!',
+    intro: 'you\'re ambushed by three martinas!',
     enemies: ['martina', 'martina', 'martina']
   },
   4: {
-    intro: 'you stumble across a strange enemy!',
+    intro: 'you stumble across a weird person!',
     enemies: ['ashwin']
   },
   5: {
@@ -139,6 +146,13 @@ const characterData = {
     health: 200,
     speed: 20,
     skills: ['pounce', 'hiss', 'lickself', 'capture']
+  },
+  martina: {
+    name: 'martina',
+    sprite: 'martina.png',
+    health: 120,
+    speed: 15,
+    skills: ['punch', 'heal', 'rally']
   },
   sabrina: {
     name: 'sabrina',
@@ -160,12 +174,5 @@ const characterData = {
     health: 190,
     speed: 14,
     skills: ['drainwave']
-  },
-  martina: {
-    name: 'martina',
-    sprite: 'martina.png',
-    health: 110,
-    speed: 15,
-    skills: ['punch']
   }
 }

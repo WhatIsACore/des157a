@@ -6,7 +6,7 @@ body {
 
 body {
     font-family: "VT323";
-    font-size: 17px;
+    font-size: 18px;
 }
 h1,
 h2,
@@ -251,7 +251,7 @@ h3 {
     background-color: #eee;
 }
 .ui .actions-list .action-btn[data-description]::before {
-    width: 300px;
+    width: 280px;
     text-align: left;
     position: absolute;
     padding: 5px;
@@ -287,7 +287,10 @@ h3 {
 .ui .dialogue .dialogue-line:not(:first-child) {
     opacity: 0.4;
 }
-.ui .dialogue .dialogue-line span {
+.ui .dialogue .dialogue-line .lore {
+    color: #00f;
+}
+.ui .dialogue .dialogue-line .death {
     color: #f00;
 }
 

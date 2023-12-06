@@ -105,21 +105,19 @@ async function getAction(character) {
 
 async function useSkill(e) {
   const skill = skills[e.currentTarget.dataset.id];
-  if (skill.isUsable != null && !skill.isUsable(actingCharacter)) return;
+  if (skill.targeting && skill.validTargets(actingCharacter).length < 0) return;
 
   sounds['click.mp3'].play();
 
   // handle targeting options
-  switch (skill.targeting) {
-    case 'one enemy':
-      const enemy = await getTarget();
-      sounds['click.mp3'].play();
-      hideSkillMenu();
-      await skill.execute(actingCharacter, enemy);
-      break;
-    default:
-      hideSkillMenu();
-      await skill.execute(actingCharacter);
+  if (skill.targeting) {
+    const enemy = await getTarget(skill.validTargets(actingCharacter));
+    sounds['click.mp3'].play();
+    hideSkillMenu();
+    await skill.execute(actingCharacter, enemy);
+  } else {
+    hideSkillMenu();
+    await skill.execute(actingCharacter);
   }
 
   resolveInput();
@@ -130,11 +128,11 @@ function hideSkillMenu() {
   $('.actions').style.display = 'none';
 }
 
-async function getTarget() {
+async function getTarget(validTargets) {
   // display the relevant target selectors
   $('.actions-list').style.display = 'none';
   $('.targeting-message').style.display = 'block';
-  $$('.enemy .target-selector').forEach(x => x.style.display = 'block');
+  validTargets.forEach(x => x.el.querySelector('.target-selector').style.display = 'block');
 
   const id = await new Promise(resolve => resolveTarget = resolve);
 
@@ -147,18 +145,19 @@ async function getTarget() {
 
 async function enemyTurn(character) {
   // enemies: pick a random move and random valid target
-  let skill = character.skills[Math.random() * character.skills.length >> 0];
-  skill = skills[skill];
+  let validSkills = character.skills.filter(x => {
+    if (!skills[x].targeting) return true;
+    return skills[x].validTargets(character).length > 0;
+  });
+  let skill = skills[validSkills[Math.random() * validSkills.length >> 0]];
 
   await timeout(200);
 
-  switch (skill.targeting) {
-    case 'one enemy':
-      let targets = [characters.cat, characters.minion1, characters.minion2].filter(x => x != null);
-      let target = targets[Math.random() * targets.length >> 0];
+  if (skill.targeting) {
+      let validTargets = skill.validTargets(character);
+      let target = validTargets[Math.random() * validTargets.length >> 0];
       await skill.execute(actingCharacter, target);
-      break;
-    default:
+  } else {
       await skill.execute(actingCharacter);
   }
 }
@@ -171,7 +170,7 @@ function nextWave() {
     new Character(characterData[w.enemies[1]], 'enemy2', false);
   if (w.enemies.length > 2)
     new Character(characterData[w.enemies[2]], 'enemy3', false);
-  dialogue(w.intro);
+  dialogue(`<span class='lore'>${w.intro}</span>`);
 }
 
 let currentScreen;
@@ -193,15 +192,22 @@ async function step() {
 }
 
 async function init() {  // initialize everything on form submit (input name)
+  const name = $('#cat_name').value;
+  if (name.length < 1) return;
+
   sounds['click.mp3'].play();
   sounds['flutey.mp3'].loop = true;
   sounds['flutey.mp3'].play();  // music
-
-  const name = $('#cat_name').value;
-  if (name.length < 1) return;
   sounds['meow.mp3'].play();
+
   new Character(characterData.cat, 'cat', true).name = name;
   await setScreen('battle');
   requestAnimationFrame(step);
 }
 $('#start').addEventListener('click', init);
+$('#cat_name').focus();
+$('#cat_name').addEventListener('keypress', e => {
+  if (e.key !== 'Enter') return;
+  e.preventDefault();
+  init();
+});
