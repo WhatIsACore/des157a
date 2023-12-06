@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>game on</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <script type="text/javascript" src="characters.js" defer></script>
+        <script type="text/javascript" src="skills.js" defer></script>
+        <script type="text/javascript" src="script.js" defer></script>
+    </head>
+
+    <body>
+        <div class="screen active" id="screen_start">
+            <div class="intro">
+                <h1>epic cat fantasy</h1>
+                <img src="images/cat.png" alt="cat" />
+                <p>what is your name?</p>
+                <input type="text" name="cat_name" id="cat_name" />
+                <div class="submit-btn" id="start">submit</div>
+            </div>
+        </div>
+        <div class="screen" id="screen_battle">
+            <div class="backdrop"></div>
+            <div class="field">
+                <div class="allies">
+                    <div class="character ally" id="cat"></div>
+                    <div class="character ally" id="minion1"></div>
+                    <div class="character ally" id="minion2"></div>
+                </div>
+                <div class="enemies">
+                    <div class="character enemy" id="enemy1"></div>
+                    <div class="character enemy" id="enemy2"></div>
+                    <div class="character enemy" id="enemy3"></div>
+                </div>
+            </div>
+            <div class="ui">
+                <div class="actions-wrapper">
+                    <div class="actions">
+                        <h2 class="action-title">
+                            <span id="acting_name"></span>'s turn!
+                        </h2>
+                        <div class="actions-list">
+                            <div class="actions-column">
+                                <h3>skills:</h3>
+                                <div id="skills_list"></div>
+                            </div>
+                            <div class="actions-column">
+                                <h3>items:</h3>
+                                <div id="items_list"></div>
+                            </div>
+                        </div>
+                        <div class="targeting-message">
+                            <h3>choose a target.</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="dialogue" id="dialogue"></div>
+            </div>
+        </div>
+        <div class="screen" id="screen_shop"></div>
+    </body>
+</html>
