@@ -48,7 +48,7 @@ screens.battle = {
     // execute actions and reset energy meters
     if (battlePhase === 'action') {
       actingCharacter = actionQueue.pop();
-      if (actingCharacter == null) return;
+      if (actingCharacter == null) return battlePhase = 'wait';
       if (actingCharacter.health <= 0) return;  // already dead cant move
 
       tutorials.actionBar();
