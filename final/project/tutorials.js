@@ -36,7 +36,6 @@ const tutorials = {
         one of your enemies is weak! you have a good chance of succeeding if you attempt to <span style="color: #00f">befriend</span> them.
       </p>
     `);
-    console.log('hi');
     tutorials.capture = () => {};
   }
 }

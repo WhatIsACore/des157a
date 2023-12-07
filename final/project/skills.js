@@ -140,7 +140,7 @@ const skills = {
   },
   yap: {
     name: 'yap',
-    description: 'yap on about world peace (does nothing)',
+    description: 'yap on about something (does nothing)',
     targeting: false,
     execute: async (user) => {
       dialogue(`${user.name} is yapping!`);
