@@ -31,7 +31,7 @@ const tutorials = {
   },
   capture: () => {
     const captureBtn = $('.skill-btn[data-id="capture"]')
-    makeTutorial(captureBtn, 170, -5, 300, `
+    makeTutorial(captureBtn, 170, -15, 300, `
       <p>
         one of your enemies is weak! you have a good chance of succeeding if you attempt to <span style="color: #00f">befriend</span> them.
       </p>

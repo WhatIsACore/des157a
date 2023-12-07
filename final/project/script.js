@@ -96,14 +96,15 @@ async function getAction(character) {
   for (let i of character.skills) {
     const skill = skills[i];
     const usable = skill.targeting ? skill.validTargets(actingCharacter).length > 0 : true;
+    const desc = skill.description.replace(/ (?=[^ ]*$)/i, "&nbsp;");  // regex non-break the last space to avoid orphan words
     skillsListEl.innerHTML += `
-      <div class="action-btn skill-btn${usable ? '' : ' disabled'}" data-id="${i}" data-description="${skill.description}">${skill.name}</div>
+      <div class="action-btn skill-btn${usable ? '' : ' disabled'}" data-id="${i}" data-description="${desc}">${skill.name}</div>
     `;
   }
 
   if (
     actingCharacter.id === 'cat' &&
-    actingCharacter.getEnemies().find(x => x.health / x.maxHealth < 0.3) != null
+    actingCharacter.getEnemies().find(x => x.health / x.maxHealth < 0.35) != null
   ) tutorials.capture();
 
   $$('.skill-btn').forEach(x => x.addEventListener('click', useSkill));

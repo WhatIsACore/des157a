@@ -140,7 +140,7 @@ const waves = {
   },
   5: {
     intro: 'you stumble across a weird person!',
-    enemies: ['ashwin', 'sadrat'],
+    enemies: ['sadrat', 'ashwin'],
     backdrop: 'backdrop'
   },
   6: {
