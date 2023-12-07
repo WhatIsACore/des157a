@@ -33,7 +33,9 @@ Character.prototype.assignId = function(id) {
   characters[id] = this;
   this.updateHTML();
 }
-Character.prototype.animate = function(effect, ms) {  // play a css animation on this character
+Character.prototype.animate = async function(effect, ms) {  // play a css animation on this character
+  this.el.classList.remove(effect);
+  await timeout(1);
   this.el.classList.add(effect);
   setTimeout(() => {this.el.classList.remove(effect)}, ms);
 }
@@ -118,23 +120,31 @@ Character.prototype.actionEnergy = function() {
 const waves = {
   1: {
     intro: 'it\'s a smelly hallway...',
-    enemies: ['martina']
+    enemies: ['martina', 'rat']
   },
   2: {
+    intro: 'a group of rats attacks you!',
+    enemies: ['sadrat', 'rat', 'rat']
+  },
+  3: {
     intro: 'two hoodlums appear in front of you!',
     enemies: ['max', 'sabrina']
   },
-  3: {
-    intro: 'you\'re ambushed by three martinas!',
-    enemies: ['martina', 'martina', 'martina']
-  },
   4: {
-    intro: 'you stumble across a weird person!',
-    enemies: ['ashwin']
+    intro: 'this one looks particularly nasty!',
+    enemies: ['rat', 'gnarlyrat', 'rat']
   },
   5: {
-    intro: 'almost there!',
-    enemies: ['sabrina', 'sabrina'],
+    intro: 'you stumble across a weird person!',
+    enemies: ['ashwin', 'sadrat']
+  },
+  6: {
+    intro: 'you\'re close to the end!',
+    enemies: ['peacerat', 'peacerat']
+  },
+  7: {
+    intro: 'it\'s the rat king! get him!',
+    enemies: ['gnarlyrat', 'ratking', 'gnarlyrat']
   }
 }
 
@@ -146,6 +156,41 @@ const characterData = {
     health: 200,
     speed: 20,
     skills: ['pounce', 'hiss', 'lickself', 'capture']
+  },
+  rat: {
+    name: 'rat',
+    sprite: 'rat.png',
+    health: 60,
+    speed: 19,
+    skills: ['bite']
+  },
+  gnarlyrat: {
+    name: 'gnarly rat',
+    sprite: 'gnarlyrat.png',
+    health: 100,
+    speed: 18,
+    skills: ['chomp', 'ratquake']
+  },
+  sadrat: {
+    name: 'sad rat',
+    sprite: 'sadrat.png',
+    health: 70,
+    speed: 14,
+    skills: ['bite']
+  },
+  peacerat: {
+    name: 'peace rat',
+    sprite: 'peacerat.png',
+    health: 40,
+    speed: 21,
+    skills: ['yap', 'rally']
+  },
+  ratking: {
+    name: 'rat king!',
+    sprite: 'ratking.png',
+    health: 300,
+    speed: 15,
+    skills: ['bigchomp', 'ratquake', 'spinattack']
   },
   martina: {
     name: 'martina',
@@ -166,13 +211,13 @@ const characterData = {
     sprite: 'max.png',
     health: 130,
     speed: 16,
-    skills: ['punch', 'rave']
+    skills: ['punch', 'rave', 'yap']
   },
   ashwin: {
     name: 'ashwin',
     sprite: 'ashwin.png',
     health: 190,
     speed: 14,
-    skills: ['drainwave']
+    skills: ['drainpunch', 'drainwave']
   }
 }

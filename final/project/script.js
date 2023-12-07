@@ -92,7 +92,7 @@ async function getAction(character) {
   skillsListEl.innerHTML = '';
   for (let i of character.skills) {
     const skill = skills[i];
-    const usable = skill.isUsable != null ? skill.isUsable(actingCharacter) : true;
+    const usable = skill.targeting ? skill.validTargets(actingCharacter).length > 0 : true;
     skillsListEl.innerHTML += `
       <div class="action-btn skill-btn${usable ? '' : ' disabled'}" data-id="${i}" data-description="${skill.description}">${skill.name}</div>
     `;
@@ -104,7 +104,7 @@ async function getAction(character) {
 }
 
 async function useSkill(e) {
-  const skill = skills[e.currentTarget.dataset.id];
+  const skill = typeof(e) === "string" ? skills[e] : skills[e.currentTarget.dataset.id];
   if (skill.targeting && skill.validTargets(actingCharacter).length < 0) return;
 
   sounds['click.mp3'].play();

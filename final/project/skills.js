@@ -23,13 +23,14 @@ const skills = {
       sounds['hiss.mp3'].play();
       dialogue(`${user.name} hisses menacingly!`);
       user.animate('_fast-bounce', 800)
-      await timeout(500);
-      user.getEnemies().forEach(x => {
+      await timeout(700);
+      user.getEnemies().forEach(async x => {
         x.damage(10);
+        await timeout(500);
         x.changeEnergy(-15);
         x.animate('_shake', 800);
       });
-      await timeout(500);
+      await timeout(1000);
     }
   },
   lickself: {
@@ -40,7 +41,7 @@ const skills = {
       sounds['meow.mp3'].play();
       dialogue(`${user.name} licks themselves!`);
       user.animate('_use', 500);
-      await timeout(500);
+      await timeout(600);
       user.heal(70);
       await timeout(250);
     }
@@ -57,7 +58,7 @@ const skills = {
     execute: async (user, target) => {
       dialogue(`attempting to catch ${target.name}...`);
       target.el.classList.add('_capturing');
-      const successChance = 1 - (target.health / target.maxHealth - 0.1) / 0.65;
+      const successChance = 1 - (target.health / target.maxHealth - 0.15) / 0.6;
       await timeout(3000);
       target.el.classList.remove('_capturing');
       if (Math.random() < successChance) {
@@ -74,6 +75,80 @@ const skills = {
       await timeout(250);
     }
   },
+  bite: {
+    name: 'bite',
+    description: 'nibble on the target.',
+    targeting: true,
+    validTargets: user => user.getEnemies(),
+    execute: async (user, target) => {
+      dialogue(`${user.name} bites ${target.name}!`);
+      user.animate('_attack', 500);
+      await timeout(150);
+      target.damage(10);
+      await timeout(350);
+    }
+  },
+  chomp: {
+    name: 'chomp',
+    description: 'chomp on the target!',
+    targeting: true,
+    validTargets: user => user.getEnemies(),
+    execute: async (user, target) => {
+      dialogue(`${user.name} chomps ${target.name}!`);
+      user.animate('_attack', 500);
+      await timeout(150);
+      target.damage(30);
+      await timeout(350);
+    }
+  },
+  bigchomp: {
+    name: 'bigchomp',
+    description: 'eat the target!',
+    targeting: true,
+    validTargets: user => user.getEnemies(),
+    execute: async (user, target) => {
+      dialogue(`${user.name} chomps ${target.name}! it really really hurts!`);
+      user.animate('_attack', 500);
+      await timeout(150);
+      target.damage(50);
+      await timeout(350);
+    }
+  },
+  ratquake: {
+    name: 'ratquake',
+    description: 'creates an earthquake, hurting everyone. can summon a rat',
+    targeting: false,
+    execute: async (user) => {
+      dialogue(`${user.name} stomps up and down, creating a ratquake!`);
+      user.animate('_fast-bounce', 800)
+      await timeout(400);
+      animateScreen('_quake', 800);
+      await timeout(300);
+      if (user.getAllies(true).length < 3) {
+        const id = (user.isPC ? ['minion1', 'minion2'] : ['enemy1', 'enemy2', 'enemy3']).find(x => characters[x] == null);
+        const rand = Math.random();
+        let type = 'rat';
+        if (rand < 0.3) type = 'sadrat';
+        if (rand < 0.1) type = 'peacerat';
+        let rat = new Character(characterData[type], id, user.isPC);
+        rat.animate('_drop-in', 400);
+        await timeout(500);
+      }
+      user.getEnemies().forEach(x => x.damage(20));
+      user.getAllies(false).forEach(x => x.damage(20));
+      await timeout(300);
+    }
+  },
+  yap: {
+    name: 'yap',
+    description: 'yap on about world peace (does nothing)',
+    targeting: false,
+    execute: async (user) => {
+      dialogue(`${user.name} is yapping!`);
+      user.animate('_fast-bounce', 800)
+      await timeout(700);
+    }
+  },
   punch: {
     name: 'punch',
     description: 'punches an enemy.',
@@ -87,6 +162,21 @@ const skills = {
       await timeout(350);
     }
   },
+  drainpunch: {
+    name: 'drain punch',
+    description: 'punches an enemy, stealing their life force.',
+    targeting: true,
+    validTargets: user => user.getEnemies(),
+    execute: async (user, target) => {
+      dialogue(`${user.name} punches ${target.name} and drains their health!`);
+      user.animate('_attack', 500);
+      await timeout(150);
+      target.damage(30);
+      await timeout(350);
+      user.heal(15);
+      await timeout(250);
+    }
+  },
   heal: {
     name: 'heal',
     description: 'heals the target!',
@@ -96,11 +186,11 @@ const skills = {
       user.animate('_use', 500);
       if (user.id === target.id) {
         dialogue(`${user.name} heals themselves!`);
-        await timeout(500);
+        await timeout(600);
         user.heal(user.isPC ? 30 : 20);  // slightly weaker heal if used by enemy
       } else {
         dialogue(`${user.name} heals ${target.name}!`);
-        await timeout(500);
+        await timeout(600);
         target.heal(30);
       }
       await timeout(250);
@@ -114,6 +204,7 @@ const skills = {
     execute: async (user, target) => {
       dialogue(`${user.name} rallies ${target.name}, increasing their action meter!`);
       user.animate('_fast-bounce', 800);
+      target.animate('_fast-bounce', 800);
       await timeout(500);
       target.changeEnergy(25);
       await timeout(500);
@@ -169,6 +260,37 @@ const skills = {
       user.getAllies(false).forEach(x => x.damage(40));
       user.damage(20);
       await timeout(800);
+    }
+  },
+  spinattack: {
+    name: 'spinattack',
+    description: 'spin around, hitting enemies at random!',
+    targeting: false,
+    execute: async (user) => {
+      dialogue(`${user.name} spins rapidly!`);
+      user.animate('_spin', 1000);
+      let enemies = user.getEnemies();
+      for (let i = 0; i < 4; i++) {
+        await timeout(200);
+        let target = enemies[Math.random() * enemies.length >> 0];
+        if (Math.random() < 0.75) {
+          target.damage(15);
+          dialogue(`> (hits ${target.name}!)`);
+        } else {
+          target.animate('_fast-bounce', 400);
+          dialogue(`> (misses ${target.name}!)`);
+        }
+      }
+      await timeout(500);
+    }
+  },
+  killall: {
+    name: 'kill all',
+    description: 'for testing purposes',
+    targeting: false,
+    execute: async (user) => {
+      user.getEnemies().forEach(x => x.damage(1000000));
+      await timeout(350);
     }
   }
 };
