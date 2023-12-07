@@ -120,31 +120,38 @@ Character.prototype.actionEnergy = function() {
 const waves = {
   1: {
     intro: 'it\'s a smelly hallway...',
-    enemies: ['martina', 'rat']
+    enemies: ['martina', 'rat'],
+    backdrop: 'backdrop'
   },
   2: {
     intro: 'a group of rats attacks you!',
-    enemies: ['sadrat', 'rat', 'rat']
+    enemies: ['sadrat', 'rat', 'rat'],
+    backdrop: 'backdrop'
   },
   3: {
     intro: 'two hoodlums appear in front of you!',
-    enemies: ['max', 'sabrina']
+    enemies: ['max', 'sabrina'],
+    backdrop: 'backdrop2'
   },
   4: {
     intro: 'this one looks particularly nasty!',
-    enemies: ['rat', 'gnarlyrat', 'rat']
+    enemies: ['rat', 'gnarlyrat', 'rat'],
+    backdrop: 'backdrop'
   },
   5: {
     intro: 'you stumble across a weird person!',
-    enemies: ['ashwin', 'sadrat']
+    enemies: ['ashwin', 'sadrat'],
+    backdrop: 'backdrop'
   },
   6: {
     intro: 'you\'re close to the end!',
-    enemies: ['peacerat', 'peacerat']
+    enemies: ['peacerat', 'peacerat'],
+    backdrop: 'backdrop'
   },
   7: {
     intro: 'it\'s the rat king! get him!',
-    enemies: ['gnarlyrat', 'ratking', 'gnarlyrat']
+    enemies: ['gnarlyrat', 'ratking', 'gnarlyrat'],
+    backdrop: 'backdrop2'
   }
 }
 

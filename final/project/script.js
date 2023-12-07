@@ -179,6 +179,9 @@ function nextWave() {
   if (w.enemies.length > 2)
     new Character(characterData[w.enemies[2]], 'enemy3', false);
   dialogue(`<span class='lore'>${w.intro}</span>`);
+
+  // set the background
+  $('.backdrop').style.backgroundImage = `url(images/${w.backdrop}.png)`;
 }
 
 let currentScreen;

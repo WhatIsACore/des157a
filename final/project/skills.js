@@ -56,7 +56,7 @@ const skills = {
       return [];
     },
     execute: async (user, target) => {
-      dialogue(`attempting to convert ${target.name}...`);
+      dialogue(`attempting to befriend ${target.name}...`);
       target.el.classList.add('_capturing');
       const successChance = 1 - (target.health / target.maxHealth - 0.15) / 0.6;
       await timeout(3000);
