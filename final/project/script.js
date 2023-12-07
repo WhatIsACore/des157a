@@ -48,7 +48,10 @@ screens.battle = {
     // execute actions and reset energy meters
     if (battlePhase === 'action') {
       actingCharacter = actionQueue.pop();
+      if (actingCharacter == null) return;
       if (actingCharacter.health <= 0) return;  // already dead cant move
+
+      tutorials.actionBar();
 
       if (actingCharacter.isPC) {
         await getAction(actingCharacter);
@@ -97,6 +100,11 @@ async function getAction(character) {
       <div class="action-btn skill-btn${usable ? '' : ' disabled'}" data-id="${i}" data-description="${skill.description}">${skill.name}</div>
     `;
   }
+
+  if (
+    actingCharacter.id === 'cat' &&
+    actingCharacter.getEnemies().find(x => x.health / x.maxHealth < 0.3) != null
+  ) tutorials.capture();
 
   $$('.skill-btn').forEach(x => x.addEventListener('click', useSkill));
 

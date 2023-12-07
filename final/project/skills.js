@@ -47,7 +47,7 @@ const skills = {
     }
   },
   capture: {
-    name: 'capture',
+    name: 'befriend',
     description: 'turn an enemy into your minion! more likely to work if you beat them up first.',
     targeting: true,
     validTargets: user => {
@@ -56,7 +56,7 @@ const skills = {
       return [];
     },
     execute: async (user, target) => {
-      dialogue(`attempting to catch ${target.name}...`);
+      dialogue(`attempting to convert ${target.name}...`);
       target.el.classList.add('_capturing');
       const successChance = 1 - (target.health / target.maxHealth - 0.15) / 0.6;
       await timeout(3000);
@@ -134,8 +134,7 @@ const skills = {
         rat.animate('_drop-in', 400);
         await timeout(500);
       }
-      user.getEnemies().forEach(x => x.damage(20));
-      user.getAllies(false).forEach(x => x.damage(20));
+      [...user.getEnemies(), ...user.getAllies(false)].forEach(x => x.damage(20));
       await timeout(300);
     }
   },
@@ -249,15 +248,14 @@ const skills = {
   },
   drainwave: {
     name: 'energy wave',
-    description: 'release a wave of drainer energy that damages everyone, includinf allies.',
+    description: 'release a wave of energy that damages everyone, including allies.',
     targeting: false,
     execute: async (user) => {
       sounds['glitch.mp3'].play();
       dialogue(`${user.name} unleashes a wave of energy!`);
       animateScreen('_drainwave', 800);
       await timeout(800);
-      user.getEnemies().forEach(x => x.damage(40));
-      user.getAllies(false).forEach(x => x.damage(40));
+      [...user.getEnemies(), ...user.getAllies(false)].forEach(x => x.damage(40));
       user.damage(20);
       await timeout(800);
     }
